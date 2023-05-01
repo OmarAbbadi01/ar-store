@@ -1,0 +1,35 @@
+package com.abbadi.arstore.address;
+
+import com.abbadi.arstore.common.generic.model.GenericEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Address implements GenericEntity<Long> {
+
+    @Id
+    @SequenceGenerator(name = "addressSequence", sequenceName = "address_sequence", allocationSize = 1)
+    @GeneratedValue(generator = "addressSequence", strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
+    private Long id;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "zip")
+    private String zip;
+}

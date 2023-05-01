@@ -30,8 +30,6 @@ public class Store {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    // TODO: add address
-
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;

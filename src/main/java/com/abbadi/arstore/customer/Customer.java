@@ -1,12 +1,15 @@
 package com.abbadi.arstore.customer;
 
 import com.abbadi.arstore.account.model.Account;
+import com.abbadi.arstore.address.Address;
 import com.abbadi.arstore.common.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -28,12 +31,14 @@ public class Customer {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    // TODO: add Address
-
     @Column(name = "gender")
     private Gender geneder;
 
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private List<Address> addresses;
 }
