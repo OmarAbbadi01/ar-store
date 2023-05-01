@@ -1,6 +1,6 @@
 package com.abbadi.arstore.store;
 
-import com.abbadi.arstore.account.Account;
+import com.abbadi.arstore.account.model.Account;
 import com.abbadi.arstore.item.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

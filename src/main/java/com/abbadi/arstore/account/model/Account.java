@@ -1,5 +1,6 @@
-package com.abbadi.arstore.account;
+package com.abbadi.arstore.account.model;
 
+import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class Account implements GenericEntity<Long> {
 
     @Id
     @SequenceGenerator(name = "accountSequence", sequenceName = "account_sequence", allocationSize = 1)
@@ -20,12 +21,12 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "account_type")
+    @Column(name = "account_type", nullable = false)
     private AccountType accountType;
 }

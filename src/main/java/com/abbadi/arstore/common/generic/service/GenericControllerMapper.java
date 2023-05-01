@@ -6,7 +6,7 @@ import com.abbadi.arstore.common.generic.model.GenericResponse;
 
 import java.io.Serializable;
 
-public interface ControllerGenericMapper<Id extends Serializable, Dto extends GenericDto<Id>,
+public interface GenericControllerMapper<Id extends Serializable, Dto extends GenericDto<Id>,
         Req extends GenericRequest<Id>, Res extends GenericResponse<Id>> {
 
     Dto toDto(Req request);

@@ -11,15 +11,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.Serializable;
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public abstract class GenericController<Id extends Serializable, Req extends GenericRequest<Id>, Res extends GenericResponse<Id>,
-        Dto extends GenericDto<Id>> {
+public abstract class GenericController<Id extends Serializable, Dto extends GenericDto<Id>, Req extends GenericRequest<Id>,
+        Res extends GenericResponse<Id>> {
 
-    private final GenericService<Dto, Id> service;
+    private final GenericService<Id, Dto> service;
 
-    private final ControllerGenericMapper<Id, Dto, Req, Res> mapper;
+    private final GenericControllerMapper<Id, Dto, Req, Res> mapper;
 
     @GetMapping("/{id}")
     public ResponseEntity<Res> findById(@PathVariable("id") final Id id) {
@@ -37,14 +36,14 @@ public abstract class GenericController<Id extends Serializable, Req extends Gen
     }
 
     @PostMapping
-    public ResponseEntity.BodyBuilder create(@RequestBody final Req request) {
+    public ResponseEntity<URI> create(@RequestBody final Req request) {
         Dto dto = service.create(mapper.toDto(request));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(dto.getId())
                 .toUri();
-        return ResponseEntity.created(uri);
+        return ResponseEntity.created(uri).build();
     }
 
     @PutMapping("/{id}")

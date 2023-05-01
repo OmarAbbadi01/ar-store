@@ -16,11 +16,11 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.ID_NO
 
 @RequiredArgsConstructor
 public abstract class GenericServiceImpl<Id extends Serializable, Dto extends GenericDto<Id>, Entity extends GenericEntity<Id>>
-        implements GenericService<Dto, Id> {
+        implements GenericService<Id, Dto> {
 
     private final JpaRepository<Entity, Id> repository;
 
-    private final RepositoryGenericMapper<Entity, Dto> mapper;
+    private final GenericRepositoryMapper<Id, Entity, Dto> mapper;
 
     @Transactional(readOnly = true)
     @Override
@@ -60,6 +60,14 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
     @Transactional
     @Override
     public void update(Dto dto) {
+        Id id = dto.getId();
+        if (!existsById(id)) {
+            throw ArStoreException.builder()
+                    .message(ID_NOT_FOUND)
+                    .params(Collections.singletonList(id))
+                    .status(HttpStatus.NOT_FOUND)
+                    .build();
+        }
         repository.save(mapper.toEntity(dto));
     }
 

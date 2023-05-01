@@ -5,7 +5,7 @@ import com.abbadi.arstore.common.generic.model.GenericDto;
 import java.io.Serializable;
 import java.util.List;
 
-public interface GenericService<Dto extends GenericDto, Id extends Serializable> {
+public interface GenericService<Id extends Serializable, Dto extends GenericDto<Id>> {
 
     Dto findById(Id id);
 
