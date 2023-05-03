@@ -1,5 +1,6 @@
-package com.abbadi.arstore.item.glasses;
+package com.abbadi.arstore.item.glasses.model;
 
+import com.abbadi.arstore.brand.model.Brand;
 import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.item.Item;
 import com.abbadi.arstore.store.Store;
@@ -17,9 +18,8 @@ import lombok.NoArgsConstructor;
 public class Glasses extends Item {
 
     @Builder(builderMethodName = "glassesBuilder")
-    public Glasses(Long id, String description, Store store, String brand, String model, String color, String type, Gender gender, Double price, String border, String shape) {
-        super(id, description, store);
-        this.brand = brand;
+    public Glasses(Long id, String description, Store store, Brand brand, String model, String color, String type, Gender gender, Double price, String border, String shape) {
+        super(id, description, store, brand);
         this.model = model;
         this.color = color;
         this.type = type;
@@ -29,9 +29,6 @@ public class Glasses extends Item {
         this.shape = shape;
     }
 
-    @Column(name = "brand")
-    private String brand;
-
     @Column(name = "model")
     private String model;
 
@@ -39,7 +36,7 @@ public class Glasses extends Item {
     private String color;
 
     @Column(name = "type")
-    private String type;
+    private String type; // TODO: what does this mean?
 
     @Column(name = "gender")
     private Gender gender;

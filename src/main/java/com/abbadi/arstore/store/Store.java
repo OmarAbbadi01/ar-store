@@ -34,7 +34,7 @@ public class Store {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @OneToMany
-    @JoinColumn(name = "store_id")
-    private List<Item> items;
+//    @OneToMany
+//    @JoinColumn(name = "store_id")
+//    private List<Item> items;
 }

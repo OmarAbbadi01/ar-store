@@ -32,7 +32,6 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
                         .message(ID_NOT_FOUND)
                         .status(HttpStatus.NOT_FOUND)
                         .build());
-
     }
 
     @Transactional(readOnly = true)
@@ -47,14 +46,24 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
     @Transactional
     @Override
     public Dto create(Dto dto) {
+        dto = beforeCreate(dto);
         Entity entity = repository.save(mapper.toEntity(dto));
         return mapper.toDto(entity);
+    }
+
+    protected Dto beforeCreate(Dto dto) {
+        return dto;
     }
 
     @Transactional
     @Override
     public void delete(Id id) {
+        beforeDelete(id);
         repository.deleteById(id);
+    }
+
+    protected void beforeDelete(Id id) {
+
     }
 
     @Transactional
@@ -68,7 +77,12 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
                     .status(HttpStatus.NOT_FOUND)
                     .build();
         }
+        dto = beforeUpdate(dto);
         repository.save(mapper.toEntity(dto));
+    }
+
+    protected Dto beforeUpdate(Dto dto) {
+        return dto;
     }
 
     @Transactional(readOnly = true)

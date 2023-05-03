@@ -1,5 +1,7 @@
 package com.abbadi.arstore.item;
 
+import com.abbadi.arstore.brand.model.Brand;
+import com.abbadi.arstore.common.generic.model.GenericEntity;
 import com.abbadi.arstore.store.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item {
+public class Item implements GenericEntity<Long> {
 
     @Id
     @SequenceGenerator(name = "itemSequence", sequenceName = "item_sequence", allocationSize = 1)
@@ -28,4 +30,7 @@ public class Item {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    @ManyToOne
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 }

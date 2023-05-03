@@ -35,7 +35,7 @@ public class ArStoreExceptionHandler {
         List<String> messages = exception.getFieldErrors()
                 .stream()
                 .sorted(Comparator.comparing(FieldError::getField))
-                .map(f -> String.format(f.getDefaultMessage(), f.getField()))
+                .map(f -> String.format(f.getDefaultMessage(), f.getField(), f.getRejectedValue()))
                 .toList();
 
         ExceptionResponse response = ExceptionResponse.builder()
