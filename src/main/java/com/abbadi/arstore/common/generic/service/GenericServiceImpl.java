@@ -2,31 +2,24 @@ package com.abbadi.arstore.common.generic.service;
 
 import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.common.generic.model.GenericDto;
-import com.abbadi.arstore.common.generic.model.GenericEntity;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.ID_NOT_FOUND;
 
 @RequiredArgsConstructor
-public abstract class GenericServiceImpl<Id extends Serializable, Dto extends GenericDto<Id>, Entity extends GenericEntity<Id>>
-        implements GenericService<Id, Dto> {
+public abstract class GenericServiceImpl<Id extends Serializable, Dto extends GenericDto<Id>> implements GenericService<Id, Dto> {
 
-    private final JpaRepository<Entity, Id> repository;
+    private final GenericRepository<Id, Dto> repository;
 
-    private final GenericRepositoryMapper<Id, Entity, Dto> mapper;
-
-    @Transactional(readOnly = true)
     @Override
     public Dto findById(Id id) {
-        return repository.findById(id)
-                .map(mapper::toDto)
+        return Optional.ofNullable(repository.findById(id))
                 .orElseThrow(() -> ArStoreException.builder()
                         .params(Collections.singletonList(id))
                         .message(ID_NOT_FOUND)
@@ -34,28 +27,22 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
                         .build());
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<Dto> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::toDto)
-                .toList();
+        return repository.findAll();
     }
 
-    @Transactional
     @Override
     public Dto create(Dto dto) {
         dto = beforeCreate(dto);
-        Entity entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+        dto = repository.create(dto);
+        return dto;
     }
 
     protected Dto beforeCreate(Dto dto) {
         return dto;
     }
 
-    @Transactional
     @Override
     public void delete(Id id) {
         beforeDelete(id);
@@ -66,7 +53,6 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
 
     }
 
-    @Transactional
     @Override
     public void update(Dto dto) {
         Id id = dto.getId();
@@ -78,14 +64,13 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
                     .build();
         }
         dto = beforeUpdate(dto);
-        repository.save(mapper.toEntity(dto));
+        repository.update(dto);
     }
 
     protected Dto beforeUpdate(Dto dto) {
         return dto;
     }
 
-    @Transactional(readOnly = true)
     @Override
     public boolean existsById(Id id) {
         return repository.existsById(id);

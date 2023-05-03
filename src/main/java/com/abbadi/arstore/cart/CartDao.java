@@ -2,5 +2,5 @@ package com.abbadi.arstore.cart;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CartItemRepository extends JpaRepository<CartItem, Long> {
+public interface CartDao extends JpaRepository<Cart, Long> {
 }

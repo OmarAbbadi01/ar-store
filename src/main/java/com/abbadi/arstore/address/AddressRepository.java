@@ -1,7 +1,7 @@
 package com.abbadi.arstore.address;
 
-import com.abbadi.arstore.address.model.Address;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.abbadi.arstore.address.model.AddressDto;
+import com.abbadi.arstore.common.generic.service.GenericRepository;
 
-public interface AddressRepository extends JpaRepository<Address, Long> {
+public interface AddressRepository extends GenericRepository<Long, AddressDto> {
 }
