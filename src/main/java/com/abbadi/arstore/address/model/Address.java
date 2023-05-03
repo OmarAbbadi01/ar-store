@@ -1,4 +1,4 @@
-package com.abbadi.arstore.address;
+package com.abbadi.arstore.address.model;
 
 import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;

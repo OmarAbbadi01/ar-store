@@ -1,7 +1,7 @@
 package com.abbadi.arstore.customer;
 
 import com.abbadi.arstore.account.model.Account;
-import com.abbadi.arstore.address.Address;
+import com.abbadi.arstore.address.model.Address;
 import com.abbadi.arstore.common.Gender;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
