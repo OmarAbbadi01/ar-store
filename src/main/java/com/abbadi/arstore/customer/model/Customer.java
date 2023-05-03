@@ -1,4 +1,4 @@
-package com.abbadi.arstore.customer;
+package com.abbadi.arstore.customer.model;
 
 import com.abbadi.arstore.account.model.Account;
 import com.abbadi.arstore.address.model.Address;

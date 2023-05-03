@@ -2,7 +2,7 @@ package com.abbadi.arstore.item;
 
 import com.abbadi.arstore.brand.model.Brand;
 import com.abbadi.arstore.common.generic.model.GenericEntity;
-import com.abbadi.arstore.store.Store;
+import com.abbadi.arstore.store.model.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

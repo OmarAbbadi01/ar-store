@@ -1,4 +1,4 @@
-package com.abbadi.arstore.order;
+package com.abbadi.arstore.order.model;
 
 import com.abbadi.arstore.item.Item;
 import jakarta.persistence.*;

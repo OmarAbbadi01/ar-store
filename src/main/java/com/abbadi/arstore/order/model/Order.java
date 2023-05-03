@@ -1,6 +1,6 @@
-package com.abbadi.arstore.order;
+package com.abbadi.arstore.order.model;
 
-import com.abbadi.arstore.customer.Customer;
+import com.abbadi.arstore.customer.model.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

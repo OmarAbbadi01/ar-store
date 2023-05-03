@@ -3,7 +3,7 @@ package com.abbadi.arstore.item.glasses.model;
 import com.abbadi.arstore.brand.model.Brand;
 import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.item.Item;
-import com.abbadi.arstore.store.Store;
+import com.abbadi.arstore.store.model.Store;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;

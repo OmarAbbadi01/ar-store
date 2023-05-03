@@ -1,4 +1,4 @@
-package com.abbadi.arstore.cart;
+package com.abbadi.arstore.cart.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

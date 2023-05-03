@@ -1,4 +1,4 @@
-package com.abbadi.arstore.cart;
+package com.abbadi.arstore.cart.model;
 
 import com.abbadi.arstore.item.Item;
 import jakarta.persistence.*;
