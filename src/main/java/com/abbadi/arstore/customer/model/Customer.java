@@ -3,6 +3,7 @@ package com.abbadi.arstore.customer.model;
 import com.abbadi.arstore.account.model.Account;
 import com.abbadi.arstore.address.model.Address;
 import com.abbadi.arstore.common.Gender;
+import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class Customer implements GenericEntity<Long> {
 
     @Id
     @SequenceGenerator(name = "customerSequence", sequenceName = "customer_sequence", allocationSize = 1)
@@ -32,7 +33,7 @@ public class Customer {
     private String phoneNumber;
 
     @Column(name = "gender")
-    private Gender geneder;
+    private Gender gender;
 
     @OneToOne
     @JoinColumn(name = "account_id")
