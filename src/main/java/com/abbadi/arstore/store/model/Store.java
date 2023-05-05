@@ -1,14 +1,12 @@
 package com.abbadi.arstore.store.model;
 
 import com.abbadi.arstore.account.model.Account;
-import com.abbadi.arstore.item.Item;
+import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Entity
 @Table(name = "store")
@@ -16,7 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Store {
+public class Store implements GenericEntity<Long> {
 
     @Id
     @SequenceGenerator(name = "storeSequence", sequenceName = "store_sequence", allocationSize = 1)
@@ -24,14 +22,14 @@ public class Store {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "account_id", unique = true, nullable = false)
     private Account account;
 
 //    @OneToMany

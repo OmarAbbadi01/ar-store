@@ -5,7 +5,7 @@ import com.abbadi.arstore.common.generic.service.GenericServiceImpl;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AccountServiceImpl extends GenericServiceImpl<Long, AccountDto> implements AccountService {
+public class AccountServiceImpl extends GenericServiceImpl<String, AccountDto> implements AccountService {
 
     private final AccountRepository repository;
 

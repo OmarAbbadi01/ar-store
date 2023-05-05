@@ -13,20 +13,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account implements GenericEntity<Long> {
+public class Account implements GenericEntity<String> {
 
     @Id
-    @SequenceGenerator(name = "accountSequence", sequenceName = "account_sequence", allocationSize = 1)
-    @GeneratedValue(generator = "accountSequence", strategy = GenerationType.SEQUENCE)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "username", nullable = false)
+    @Column(name = "username")
     private String username;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "account_type", nullable = false)
     private AccountType accountType;
+
+    @Override
+    public String getId() {
+        return this.username;
+    }
 }

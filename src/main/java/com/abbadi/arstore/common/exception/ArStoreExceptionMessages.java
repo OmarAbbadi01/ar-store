@@ -8,5 +8,7 @@ public class ArStoreExceptionMessages {
     public static final String CAN_NOT_BE_NULL = "%s can not be null";
     public static final String CAN_NOT_BE_EMPTY = "%s can not be empty";
     public static final String FIELD_UNDER_MIN_VALUE = "%s=%s is under min value";
+    public static final String ACCOUNT_ALREADY_EXISTS = "account already exists";
+    public static final String ACCOUNT_SHOULD_BE_OF_TYPE_STORE = "account should be of type store";
 
 }

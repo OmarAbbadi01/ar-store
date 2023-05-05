@@ -35,8 +35,7 @@ public abstract class GenericServiceImpl<Id extends Serializable, Dto extends Ge
     @Override
     public Dto create(Dto dto) {
         dto = beforeCreate(dto);
-        dto = repository.create(dto);
-        return dto;
+        return repository.create(dto);
     }
 
     protected Dto beforeCreate(Dto dto) {
