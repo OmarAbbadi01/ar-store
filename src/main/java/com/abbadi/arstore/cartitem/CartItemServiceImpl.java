@@ -49,7 +49,7 @@ public class CartItemServiceImpl implements CartItemService {
     }
 
     @Override
-    public void create(CartItemDto dto) {
+    public CartItemId create(CartItemDto dto) {
         if (repository.existsById(dto.getId())) {
             Integer oldQuantity = repository.findById(dto.getId()).getQuantity();
             dto.setQuantity(dto.getQuantity() + oldQuantity);
@@ -57,8 +57,9 @@ public class CartItemServiceImpl implements CartItemService {
         } else {
             validateCustomer(dto);
             validateItem(dto);
-            repository.create(dto);
+            dto = repository.create(dto);
         }
+        return dto.getId();
     }
 
     private void validateCustomer(CartItemDto dto) {

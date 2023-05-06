@@ -13,6 +13,6 @@ public interface CartItemService {
 
     void update(CartItemDto dto);
 
-    void create(CartItemDto dto);
+    CartItemId create(CartItemDto dto);
 
 }

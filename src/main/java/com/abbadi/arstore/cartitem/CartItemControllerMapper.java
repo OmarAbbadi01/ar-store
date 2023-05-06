@@ -1,31 +1,34 @@
 package com.abbadi.arstore.cartitem;
 
 import com.abbadi.arstore.cartitem.model.CartItemDto;
-import com.abbadi.arstore.cartitem.model.CartItemId;
 import com.abbadi.arstore.cartitem.model.CartItemRequest;
 import com.abbadi.arstore.cartitem.model.CartItemResponse;
-import com.abbadi.arstore.common.generic.service.GenericControllerMapper;
 import com.abbadi.arstore.item.parent.ItemControllerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class CartItemControllerMapper extends GenericControllerMapper<CartItemId, CartItemDto, CartItemRequest, CartItemResponse> {
-
+public class CartItemControllerMapper {
 
     private final ItemControllerMapper itemControllerMapper;
 
-    @Override
-    public CartItemDto mapToDto(CartItemRequest request) {
+    public CartItemDto toDto(CartItemRequest request) {
+        return request != null ? mapToDto(request) : null;
+    }
+
+    public CartItemResponse toResponse(CartItemDto dto) {
+        return dto != null ? mapToResponse(dto) : null;
+    }
+
+    private CartItemDto mapToDto(CartItemRequest request) {
         return CartItemDto.builder()
                 .id(request.getId())
                 .quantity(request.getQuantity())
                 .build();
     }
 
-    @Override
-    public CartItemResponse mapToResponse(CartItemDto dto) {
+    private CartItemResponse mapToResponse(CartItemDto dto) {
         return CartItemResponse.builder()
                 .itemResponse(itemControllerMapper.toResponse(dto.getItemDto()))
                 .quantity(dto.getQuantity())
