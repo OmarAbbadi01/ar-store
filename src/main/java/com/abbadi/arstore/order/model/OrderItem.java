@@ -1,6 +1,6 @@
 package com.abbadi.arstore.order.model;
 
-import com.abbadi.arstore.item.Item;
+import com.abbadi.arstore.item.parent.model.Item;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

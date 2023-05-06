@@ -7,10 +7,10 @@ import com.abbadi.arstore.common.generic.service.GenericControllerMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddressControllerMapper implements GenericControllerMapper<Long, AddressDto, AddressRequest, AddressResponse> {
+public class AddressControllerMapper extends GenericControllerMapper<Long, AddressDto, AddressRequest, AddressResponse> {
 
     @Override
-    public AddressDto toDto(AddressRequest request) {
+    public AddressDto mapToDto(AddressRequest request) {
         return AddressDto.builder()
                 .id(request.getId())
                 .country(request.getCountry())
@@ -21,7 +21,7 @@ public class AddressControllerMapper implements GenericControllerMapper<Long, Ad
     }
 
     @Override
-    public AddressResponse toResponse(AddressDto dto) {
+    public AddressResponse mapToResponse(AddressDto dto) {
         return AddressResponse.builder()
                 .id(dto.getId())
                 .country(dto.getCountry())

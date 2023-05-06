@@ -7,10 +7,10 @@ import com.abbadi.arstore.common.generic.service.GenericControllerMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BrandControllerMapper implements GenericControllerMapper<Long, BrandDto, BrandRequest, BrandResponse> {
+public class BrandControllerMapper extends GenericControllerMapper<Long, BrandDto, BrandRequest, BrandResponse> {
 
     @Override
-    public BrandDto toDto(BrandRequest request) {
+    public BrandDto mapToDto(BrandRequest request) {
         return BrandDto.builder()
                 .id(request.getId())
                 .countryOfOrigin(request.getCountryOfOrigin())
@@ -19,7 +19,7 @@ public class BrandControllerMapper implements GenericControllerMapper<Long, Bran
     }
 
     @Override
-    public BrandResponse toResponse(BrandDto dto) {
+    public BrandResponse mapToResponse(BrandDto dto) {
         return BrandResponse.builder()
                 .id(dto.getId())
                 .countryOfOrigin(dto.getCountryOfOrigin())

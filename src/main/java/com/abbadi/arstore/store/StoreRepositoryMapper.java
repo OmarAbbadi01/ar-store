@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StoreRepositoryMapper implements GenericRepositoryMapper<Long, Store, StoreDto> {
+public class StoreRepositoryMapper extends GenericRepositoryMapper<Long, Store, StoreDto> {
 
     private final AccountRepositoryMapper accountRepositoryMapper;
 
     @Override
-    public StoreDto toDto(Store entity) {
+    public StoreDto mapToDto(Store entity) {
         return StoreDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -24,12 +24,12 @@ public class StoreRepositoryMapper implements GenericRepositoryMapper<Long, Stor
     }
 
     @Override
-    public Store toEntity(StoreDto dto) {
+    public Store mapToEntity(StoreDto dto) {
         return Store.builder()
                 .id(dto.getId())
                 .name(dto.getName())
                 .phoneNumber(dto.getPhoneNumber())
-                .account(dto.getAccountDto() != null ? accountRepositoryMapper.toEntity(dto.getAccountDto()) : null)
+                .account(accountRepositoryMapper.toEntity(dto.getAccountDto()))
                 .build();
     }
 }

@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class StoreControllerMapper implements GenericControllerMapper<Long, StoreDto, StoreRequest, StoreResponse> {
+public class StoreControllerMapper extends GenericControllerMapper<Long, StoreDto, StoreRequest, StoreResponse> {
 
     @Override
-    public StoreDto toDto(StoreRequest request) {
+    public StoreDto mapToDto(StoreRequest request) {
         return StoreDto.builder()
                 .id(request.getId())
                 .name(request.getName())
@@ -21,7 +21,7 @@ public class StoreControllerMapper implements GenericControllerMapper<Long, Stor
     }
 
     @Override
-    public StoreResponse toResponse(StoreDto dto) {
+    public StoreResponse mapToResponse(StoreDto dto) {
         return StoreResponse.builder()
                 .id(dto.getId())
                 .name(dto.getName())

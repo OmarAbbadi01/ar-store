@@ -2,7 +2,7 @@ package com.abbadi.arstore.customer.model;
 
 import com.abbadi.arstore.account.model.Account;
 import com.abbadi.arstore.address.model.Address;
-import com.abbadi.arstore.cart.model.Cart;
+import com.abbadi.arstore.cartitem.model.CartItem;
 import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;
@@ -44,7 +44,7 @@ public class Customer implements GenericEntity<Long> {
     @JoinColumn(name = "customer_id", nullable = false)
     private List<Address> addresses;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id", unique = true, nullable = false)
-    private Cart cart;
+    @OneToMany(mappedBy = "customer")
+    private List<CartItem> cartItems;
+
 }

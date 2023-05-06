@@ -1,17 +1,26 @@
 package com.abbadi.arstore.item.glasses;
 
+import com.abbadi.arstore.brand.BrandControllerMapper;
 import com.abbadi.arstore.common.generic.service.GenericControllerMapper;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
 import com.abbadi.arstore.item.glasses.model.GlassesRequest;
 import com.abbadi.arstore.item.glasses.model.GlassesResponse;
+import com.abbadi.arstore.store.StoreController;
+import com.abbadi.arstore.store.StoreControllerMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GlassesControllerMapper implements GenericControllerMapper<Long, GlassesDto, GlassesRequest, GlassesResponse> {
+@RequiredArgsConstructor
+public class GlassesControllerMapper extends GenericControllerMapper<Long, GlassesDto, GlassesRequest, GlassesResponse> {
+
+    private final StoreControllerMapper storeControllerMapper;
+
+    private final BrandControllerMapper brandControllerMapper;
 
     @Override
-    public GlassesDto toDto(GlassesRequest request) {
-        return GlassesDto.builder()
+    public GlassesDto mapToDto(GlassesRequest request) {
+        return GlassesDto.glassesDtoBuilder()
                 .id(request.getId())
                 .description(request.getDescription())
                 .storeId(request.getStoreId())
@@ -27,12 +36,12 @@ public class GlassesControllerMapper implements GenericControllerMapper<Long, Gl
     }
 
     @Override
-    public GlassesResponse toResponse(GlassesDto dto) {
-        return GlassesResponse.builder()
+    public GlassesResponse mapToResponse(GlassesDto dto) {
+        return GlassesResponse.glassesResponseBuilder()
                 .id(dto.getId())
                 .description(dto.getDescription())
-                .store(dto.getStore())
-                .brand(dto.getBrand())
+                .storeResponse(storeControllerMapper.toResponse(dto.getStoreDto()))
+                .brandResponse(brandControllerMapper.toResponse(dto.getBrandDto()))
                 .model(dto.getModel())
                 .color(dto.getColor())
                 .type(dto.getType())

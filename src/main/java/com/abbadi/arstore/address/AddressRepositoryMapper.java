@@ -6,10 +6,10 @@ import com.abbadi.arstore.common.generic.service.GenericRepositoryMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AddressRepositoryMapper implements GenericRepositoryMapper<Long, Address, AddressDto> {
+public class AddressRepositoryMapper extends GenericRepositoryMapper<Long, Address, AddressDto> {
 
     @Override
-    public AddressDto toDto(Address entity) {
+    public AddressDto mapToDto(Address entity) {
         return AddressDto.builder()
                 .id(entity.getId())
                 .country(entity.getCountry())
@@ -20,7 +20,7 @@ public class AddressRepositoryMapper implements GenericRepositoryMapper<Long, Ad
     }
 
     @Override
-    public Address toEntity(AddressDto dto) {
+    public Address mapToEntity(AddressDto dto) {
         return Address.builder()
                 .id(dto.getId())
                 .country(dto.getCountry())

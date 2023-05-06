@@ -6,10 +6,10 @@ import com.abbadi.arstore.common.generic.service.GenericRepositoryMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountRepositoryMapper implements GenericRepositoryMapper<String, Account, AccountDto> {
+public class AccountRepositoryMapper extends GenericRepositoryMapper<String, Account, AccountDto> {
 
     @Override
-    public AccountDto toDto(Account entity) {
+    public AccountDto mapToDto(Account entity) {
         return AccountDto.builder()
                 .username(entity.getUsername())
                 .email(entity.getEmail())
@@ -19,7 +19,7 @@ public class AccountRepositoryMapper implements GenericRepositoryMapper<String, 
     }
 
     @Override
-    public Account toEntity(AccountDto dto) {
+    public Account mapToEntity(AccountDto dto) {
         return Account.builder()
                 .username(dto.getUsername())
                 .email(dto.getEmail())

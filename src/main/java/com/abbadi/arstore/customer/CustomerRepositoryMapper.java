@@ -6,10 +6,10 @@ import com.abbadi.arstore.customer.model.CustomerDto;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomerRepositoryMapper implements GenericRepositoryMapper<Long, Customer, CustomerDto> {
+public class CustomerRepositoryMapper extends GenericRepositoryMapper<Long, Customer, CustomerDto> {
 
     @Override
-    public CustomerDto toDto(Customer entity) {
+    public CustomerDto mapToDto(Customer entity) {
         return CustomerDto.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -19,7 +19,7 @@ public class CustomerRepositoryMapper implements GenericRepositoryMapper<Long, C
     }
 
     @Override
-    public Customer toEntity(CustomerDto dto) {
+    public Customer mapToEntity(CustomerDto dto) {
         return Customer.builder()
                 .id(dto.getId())
                 .name(dto.getName())

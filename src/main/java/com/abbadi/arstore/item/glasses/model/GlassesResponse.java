@@ -1,35 +1,40 @@
 package com.abbadi.arstore.item.glasses.model;
 
-import com.abbadi.arstore.brand.model.Brand;
+import com.abbadi.arstore.brand.model.BrandResponse;
 import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.common.generic.model.GenericResponse;
-import com.abbadi.arstore.store.model.Store;
+import com.abbadi.arstore.item.parent.model.ItemResponse;
+import com.abbadi.arstore.store.model.StoreResponse;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Builder
-@Value
-public class GlassesResponse implements GenericResponse<Long> {
+@Getter
+public class GlassesResponse extends ItemResponse implements GenericResponse<Long> {
 
-    Long id;
+    private final String model;
 
-    String description;
+    private final String color;
 
-    Store store; //TODO: convert to StoreResponse
+    private final String type;
 
-    Brand brand; // TODO: convert to BrandResponse
+    private final Gender gender;
 
-    String model;
+    private final Double price;
 
-    String color;
+    private final String border;
 
-    String type;
+    private final String shape;
 
-    Gender gender;
-
-    Double price;
-
-    String border;
-
-    String shape;
+    @Builder(builderMethodName = "glassesResponseBuilder")
+    public GlassesResponse(Long id, String description, StoreResponse storeResponse, BrandResponse brandResponse,
+                           String model, String color, String type, Gender gender, Double price, String border, String shape) {
+        super(id, description, storeResponse, brandResponse);
+        this.model = model;
+        this.color = color;
+        this.type = type;
+        this.gender = gender;
+        this.price = price;
+        this.border = border;
+        this.shape = shape;
+    }
 }

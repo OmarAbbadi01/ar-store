@@ -7,9 +7,9 @@ import com.abbadi.arstore.customer.model.CustomerResponse;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomerControllerMapper implements GenericControllerMapper<Long, CustomerDto, CustomerRequest, CustomerResponse> {
+public class CustomerControllerMapper extends GenericControllerMapper<Long, CustomerDto, CustomerRequest, CustomerResponse> {
     @Override
-    public CustomerDto toDto(CustomerRequest request) {
+    public CustomerDto mapToDto(CustomerRequest request) {
         return CustomerDto.builder()
                 .id(request.getId())
                 .name(request.getName())
@@ -19,7 +19,7 @@ public class CustomerControllerMapper implements GenericControllerMapper<Long, C
     }
 
     @Override
-    public CustomerResponse toResponse(CustomerDto dto) {
+    public CustomerResponse mapToResponse(CustomerDto dto) {
         return CustomerResponse.builder()
                 .id(dto.getId())
                 .name(dto.getName())

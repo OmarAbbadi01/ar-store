@@ -6,10 +6,10 @@ import com.abbadi.arstore.common.generic.service.GenericRepositoryMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BrandRepositoryMapper implements GenericRepositoryMapper<Long, Brand, BrandDto> {
+public class BrandRepositoryMapper extends GenericRepositoryMapper<Long, Brand, BrandDto> {
 
     @Override
-    public BrandDto toDto(Brand entity) {
+    public BrandDto mapToDto(Brand entity) {
         return BrandDto.builder()
                 .id(entity.getId())
                 .countryOfOrigin(entity.getCountryOfOrigin())
@@ -18,7 +18,7 @@ public class BrandRepositoryMapper implements GenericRepositoryMapper<Long, Bran
     }
 
     @Override
-    public Brand toEntity(BrandDto dto) {
+    public Brand mapToEntity(BrandDto dto) {
         return Brand.builder()
                 .id(dto.getId())
                 .countryOfOrigin(dto.getCountryOfOrigin())
