@@ -13,6 +13,8 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 @Value
 public class StoreRequest implements GenericRequest<Long> {
 
+    @Null(groups = OnCreate.class, message = MUST_BE_NULL)
+    @NotNull(groups = OnUpdate.class, message = CAN_NOT_BE_NULL)
     Long id;
 
     @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})

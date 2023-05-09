@@ -18,7 +18,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api/cart/item")
 @RequiredArgsConstructor
 public class CartItemController {
 
@@ -55,7 +55,7 @@ public class CartItemController {
     }
 
     // TODO: remove customerId
-    @DeleteMapping("/item/{itemId}/customer/{customerId}")
+    @DeleteMapping("/{itemId}/customer/{customerId}")
     public ResponseEntity<CartItemResponse> deleteItem(@PathVariable("itemId") final Long itemId,
                                                        @PathVariable("customerId") final Long customerId) {
         CartItemId id = CartItemId.builder()
