@@ -18,6 +18,8 @@ public class ItemDto implements GenericDto<Long> {
 
     protected String description;
 
+    protected Double price;
+
     protected StoreDto storeDto;
 
     protected BrandDto brandDto;

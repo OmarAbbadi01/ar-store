@@ -1,4 +1,4 @@
-package com.abbadi.arstore.order;
+package com.abbadi.arstore.order.service;
 
 import com.abbadi.arstore.order.model.Order;
 import org.springframework.data.jpa.repository.JpaRepository;

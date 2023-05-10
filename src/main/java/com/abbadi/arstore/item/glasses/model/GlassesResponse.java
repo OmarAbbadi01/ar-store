@@ -19,8 +19,6 @@ public class GlassesResponse extends ItemResponse implements GenericResponse<Lon
 
     private final Gender gender;
 
-    private final Double price;
-
     private final String border;
 
     private final String shape;
@@ -28,12 +26,11 @@ public class GlassesResponse extends ItemResponse implements GenericResponse<Lon
     @Builder(builderMethodName = "glassesResponseBuilder")
     public GlassesResponse(Long id, String description, StoreResponse storeResponse, BrandResponse brandResponse,
                            String model, String color, String type, Gender gender, Double price, String border, String shape) {
-        super(id, description, storeResponse, brandResponse);
+        super(id, description, price, storeResponse, brandResponse);
         this.model = model;
         this.color = color;
         this.type = type;
         this.gender = gender;
-        this.price = price;
         this.border = border;
         this.shape = shape;
     }

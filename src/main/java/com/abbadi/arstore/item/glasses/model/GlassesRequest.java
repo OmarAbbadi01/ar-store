@@ -38,10 +38,6 @@ public class GlassesRequest extends ItemRequest implements GenericRequest<Long> 
     private final Gender gender;
 
     @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @Min(value = 0, message = FIELD_UNDER_MIN_VALUE, groups = {OnUpdate.class, OnCreate.class})
-    private final Double price;
-
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
     @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
     private final String border;
 
@@ -51,14 +47,13 @@ public class GlassesRequest extends ItemRequest implements GenericRequest<Long> 
 
     public GlassesRequest(Long id, String description, Long storeId, Long brandId, String model, String color, String type,
                           Gender gender, Double price, String border, String shape) {
-        super(id, description);
+        super(id, description, price);
         this.storeId = storeId;
         this.brandId = brandId;
         this.model = model;
         this.color = color;
         this.type = type;
         this.gender = gender;
-        this.price = price;
         this.border = border;
         this.shape = shape;
     }

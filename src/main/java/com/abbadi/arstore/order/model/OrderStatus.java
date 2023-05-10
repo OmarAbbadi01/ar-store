@@ -1,5 +1,5 @@
 package com.abbadi.arstore.order.model;
 
 public enum OrderStatus {
-    CREATED, SHIPPED, DELIVERED
+    PENDING_APPROVAL, DECLINED, CANCELED, APPROVED, IN_TRANSIT, DELIVERED
 }

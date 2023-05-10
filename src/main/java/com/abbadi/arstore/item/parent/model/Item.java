@@ -29,6 +29,9 @@ public class Item implements GenericEntity<Long> {
     @Column(name = "description")
     protected String description;
 
+    @Column(name = "price")
+    private Double price;
+
     @ManyToOne
     @JoinColumn(name = "store_id")
     protected Store store;
