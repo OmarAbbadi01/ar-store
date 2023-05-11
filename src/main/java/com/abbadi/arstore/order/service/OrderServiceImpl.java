@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,9 +45,9 @@ public class OrderServiceImpl implements OrderService {
         newOrderDto.setOrderStatus(OrderStatus.PENDING_APPROVAL);
         newOrderDto.setDiscount(0D); // TODO: should be derived
         newOrderDto.setCustomerDto(customerRepository.findById(customerId));
-        newOrderDto.setTotalPrice(newOrderDto.getOrderItemsDtos().stream()
-                .mapToDouble(orderItemDto -> itemRepository.findById(orderItemDto.getItemDto().getId()).getPrice())
-                .sum());
+//        newOrderDto.setTotalPrice(newOrderDto.getOrderItemsDtos().stream()
+//                .mapToDouble(orderItemDto -> itemRepository.findById(orderItemDto.getItemDto().getId()).getPrice())
+//                .sum());
         newOrderDto.getOrderItemsDtos()
                 .forEach(orderItemDto -> {
                     orderItemDto
@@ -59,6 +60,11 @@ public class OrderServiceImpl implements OrderService {
                 });
 
         return orderRepository.create(newOrderDto).getId();
+    }
+
+    @Override
+    public List<OrderDto> findAll() {
+        return orderRepository.findAll();
     }
 
     @Override

@@ -2,9 +2,13 @@ package com.abbadi.arstore.order.service;
 
 import com.abbadi.arstore.order.model.OrderDto;
 
+import java.util.List;
+
 public interface OrderService {
 
     Long createOrder(OrderDto newOrderDto);
+
+    List<OrderDto> findAll();
 
     void approveOrder(Long id);
 

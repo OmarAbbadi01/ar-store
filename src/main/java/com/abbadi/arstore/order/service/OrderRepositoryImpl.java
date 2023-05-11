@@ -36,4 +36,14 @@ public class OrderRepositoryImpl implements OrderRepository {
         dao.save(order);
         return mapper.toDto(order);
     }
+
+    @Override
+    public List<OrderDto> findAll() {
+        return dao.findAll()
+                .stream()
+                .map(mapper::toDto)
+                .peek(orderDto -> orderDto.setTotalPrice(dao.getOrderTotalPrice(orderDto.getId())))
+                .toList();
+    }
+
 }
