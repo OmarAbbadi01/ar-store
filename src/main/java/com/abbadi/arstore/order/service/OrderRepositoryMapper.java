@@ -2,11 +2,9 @@ package com.abbadi.arstore.order.service;
 
 import com.abbadi.arstore.common.generic.service.GenericRepositoryMapper;
 import com.abbadi.arstore.customer.CustomerRepositoryMapper;
-import com.abbadi.arstore.order.model.Order;
-import com.abbadi.arstore.order.model.OrderDto;
+import com.abbadi.arstore.item.parent.ItemRepositoryMapper;
+import com.abbadi.arstore.order.model.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,6 +12,8 @@ import org.springframework.stereotype.Component;
 public class OrderRepositoryMapper extends GenericRepositoryMapper<Long, Order, OrderDto> {
 
     private final CustomerRepositoryMapper customerMapper;
+
+    private final ItemRepositoryMapper itemRepositoryMapper;
 
     @Override
     protected OrderDto mapToDto(Order entity) {
@@ -25,7 +25,15 @@ public class OrderRepositoryMapper extends GenericRepositoryMapper<Long, Order, 
                 .orderStatus(entity.getOrderStatus())
                 .discount(entity.getDiscount())
                 .customerDto(customerMapper.toDto(entity.getCustomer()))
-
+                .orderItemsDtos(entity.getOrdersItems()
+                        .stream()
+                        .map(orderItem -> OrderItemDto.builder()
+                                .quantity(orderItem.getQuantity())
+                                .pricePerPiece(orderItem.getPricePerPiece())
+                                .itemDto(itemRepositoryMapper.toDto(orderItem.getItem()))
+                                .build())
+                        .toList()
+                )
                 .build();
     }
 
@@ -39,10 +47,18 @@ public class OrderRepositoryMapper extends GenericRepositoryMapper<Long, Order, 
                 .orderStatus(dto.getOrderStatus())
                 .discount(dto.getDiscount())
                 .customer(customerMapper.toEntity(dto.getCustomerDto()))
-//                .ordersItems(dto.getOrderItemsDtos() != null ? dto.getOrderItemsDtos()
-//                        .stream()
-//                        .map(orderItemRepositoryMapper::toEntity)
-//                        .toList() : null)
+                .ordersItems(dto.getOrderItemsDtos() != null ? dto.getOrderItemsDtos()
+                        .stream()
+                        .map(orderItemDto -> OrderItem.builder()
+                                .id(OrderItemId.builder()
+                                        .orderId(dto.getId())
+                                        .itemId(orderItemDto.getItemDto().getId())
+                                        .build())
+                                .quantity(orderItemDto.getQuantity())
+                                .pricePerPiece(orderItemDto.getPricePerPiece())
+                                .item(itemRepositoryMapper.toEntity(orderItemDto.getItemDto()))
+                                .build())
+                        .toList() : null)
                 .build();
     }
 }

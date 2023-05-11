@@ -1,21 +1,39 @@
 package com.abbadi.arstore.order.service;
 
-import com.abbadi.arstore.common.generic.service.GenericRepositoryImpl;
-import com.abbadi.arstore.order.model.Order;
-import com.abbadi.arstore.order.model.OrderDto;
+import com.abbadi.arstore.order.model.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public class OrderRepositoryImpl extends GenericRepositoryImpl<Long, Order, OrderDto> implements OrderRepository {
+@RequiredArgsConstructor
+public class OrderRepositoryImpl implements OrderRepository {
 
     private final OrderDao dao;
 
     private final OrderRepositoryMapper mapper;
 
-    public OrderRepositoryImpl(OrderDao dao, OrderRepositoryMapper mapper) {
-        super(dao, mapper);
-        this.dao = dao;
-        this.mapper = mapper;
-    }
+    private final OrderItemDao orderItemDao;
 
+    private final OrderItemRepositoryMapper orderItemRepositoryMapper;
+
+    @Override
+    public OrderDto create(OrderDto dto) {
+        List<OrderItemDto> orderItemsDtos = dto.getOrderItemsDtos();
+        dto.setOrderItemsDtos(null);
+        Order order = dao.save(mapper.toEntity(dto));
+        List<OrderItem> orderItems = orderItemsDtos
+                .stream()
+                .map(orderItemRepositoryMapper::toEntity)
+                .toList();
+        orderItems.forEach(orderItem -> {
+            orderItem.setOrder(order);
+            orderItem.getId().setOrderId(order.getId());
+        });
+        orderItems = orderItemDao.saveAll(orderItems);
+        order.setOrdersItems(orderItems);
+        dao.save(order);
+        return mapper.toDto(order);
+    }
 }

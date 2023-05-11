@@ -18,17 +18,17 @@ public class OrderController {
 
     private final OrderService service;
 
-//    private final OrderControllerMapper mapper;
+    private final OrderControllerMapper mapper;
 
     @PostMapping
     public ResponseEntity<URI> createOrder(@RequestBody final OrderRequest request) {
-//        Long id = service.createOrder(mapper.toDto(request));
-//        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(id)
-//                .toUri();
-//        return ResponseEntity.created(uri).build();
-        return null;
+        Long id = service.createOrder(mapper.toDto(request));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
+        return ResponseEntity.created(uri).build();
+
     }
 
 }

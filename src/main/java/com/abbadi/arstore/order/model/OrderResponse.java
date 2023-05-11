@@ -1,7 +1,6 @@
 package com.abbadi.arstore.order.model;
 
 import com.abbadi.arstore.common.generic.model.GenericResponse;
-import com.abbadi.arstore.item.parent.model.ItemResponse;
 import lombok.Builder;
 import lombok.Value;
 
@@ -17,5 +16,7 @@ public class OrderResponse implements GenericResponse<Long> {
 
     Double discount;
 
-    List<ItemResponse> itemsResponse;
+    Double totalPrice;
+
+    List<OrderItemResponse> orderItemResponses;
 }
