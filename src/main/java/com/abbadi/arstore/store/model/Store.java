@@ -1,6 +1,6 @@
 package com.abbadi.arstore.store.model;
 
-import com.abbadi.arstore.account.model.Account;
+import com.abbadi.arstore.user.model.User;
 import com.abbadi.arstore.common.generic.model.GenericEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,9 +28,9 @@ public class Store implements GenericEntity<Long> {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_id", unique = true, nullable = false)
-    private Account account;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    private User user;
 
 //    @OneToMany
 //    @JoinColumn(name = "store_id")

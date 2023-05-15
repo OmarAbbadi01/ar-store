@@ -1,6 +1,6 @@
 package com.abbadi.arstore.customer.model;
 
-import com.abbadi.arstore.account.model.Account;
+import com.abbadi.arstore.user.model.User;
 import com.abbadi.arstore.address.model.Address;
 import com.abbadi.arstore.cartitem.model.CartItem;
 import com.abbadi.arstore.common.Gender;
@@ -37,8 +37,8 @@ public class Customer implements GenericEntity<Long> {
     private Gender gender;
 
     @OneToOne
-    @JoinColumn(name = "account_id", unique = true, nullable = false)
-    private Account account;
+    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    private User user;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)

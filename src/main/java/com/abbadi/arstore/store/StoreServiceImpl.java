@@ -1,7 +1,7 @@
 package com.abbadi.arstore.store;
 
-import com.abbadi.arstore.account.AccountRepository;
-import com.abbadi.arstore.account.model.AccountDto;
+import com.abbadi.arstore.user.UserRepository;
+import com.abbadi.arstore.user.model.UserDto;
 import com.abbadi.arstore.common.generic.service.GenericServiceImpl;
 import com.abbadi.arstore.store.model.StoreDto;
 import org.springframework.stereotype.Service;
@@ -11,18 +11,18 @@ public class StoreServiceImpl extends GenericServiceImpl<Long, StoreDto> impleme
 
     private final StoreRepository repository;
 
-    private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
 
-    public StoreServiceImpl(StoreRepository repository, AccountRepository accountRepository) {
+    public StoreServiceImpl(StoreRepository repository, UserRepository userRepository) {
         super(repository);
         this.repository = repository;
-        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     protected StoreDto beforeUpdate(StoreDto dto) {
-        AccountDto accountDto = accountRepository.findAccountByStoreId(dto.getId());
-        dto.setAccountDto(accountDto);
+        UserDto userDto = userRepository.findUserByStoreId(dto.getId());
+        dto.setUserDto(userDto);
         return dto;
     }
 }

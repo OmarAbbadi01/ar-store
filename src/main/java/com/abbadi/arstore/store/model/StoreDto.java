@@ -1,6 +1,6 @@
 package com.abbadi.arstore.store.model;
 
-import com.abbadi.arstore.account.model.AccountDto;
+import com.abbadi.arstore.user.model.UserDto;
 import com.abbadi.arstore.common.generic.model.GenericDto;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +15,5 @@ public class StoreDto implements GenericDto<Long> {
 
     private String phoneNumber;
 
-    private AccountDto accountDto;
+    private UserDto userDto;
 }
