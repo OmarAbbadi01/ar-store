@@ -7,4 +7,6 @@ public interface UserRepository extends GenericRepository<Long, UserDto> {
 
     UserDto findUserByStoreId(Long storeId);
 
+    UserDto findUserByEmail(String email);
+
 }

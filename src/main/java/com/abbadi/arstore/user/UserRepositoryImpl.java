@@ -25,4 +25,11 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User, UserDt
     public UserDto findUserByStoreId(Long storeId) {
         return mapper.toDto(dao.findUserByStoreId(storeId));
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public UserDto findUserByEmail(String email) {
+        return mapper.toDto(dao.findByEmail(email).orElse(null));
+    }
+
 }

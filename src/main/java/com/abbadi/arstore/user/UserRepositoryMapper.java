@@ -12,7 +12,6 @@ public class UserRepositoryMapper extends GenericRepositoryMapper<Long, User, Us
     public UserDto mapToDto(User entity) {
         return UserDto.builder()
                 .id(entity.getId())
-                .username(entity.getUsername())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
                 .userType(entity.getUserType())
@@ -23,7 +22,6 @@ public class UserRepositoryMapper extends GenericRepositoryMapper<Long, User, Us
     public User mapToEntity(UserDto dto) {
         return User.builder()
                 .id(dto.getId())
-                .username(dto.getUsername())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .userType(dto.getUserType())

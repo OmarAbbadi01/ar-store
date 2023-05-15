@@ -6,6 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "ar_user")
@@ -21,9 +27,6 @@ public class User implements GenericEntity<Long> {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false)
-    private String username;
-
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
@@ -31,6 +34,6 @@ public class User implements GenericEntity<Long> {
     private String password;
 
     @Column(name = "user_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserType userType;
-
 }
