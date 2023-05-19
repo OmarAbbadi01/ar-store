@@ -1,5 +1,7 @@
 package com.abbadi.arstore.authentication.filter;
 
+import com.abbadi.arstore.authentication.config.ArStoreConfigProperties;
+import com.abbadi.arstore.authentication.config.Security;
 import com.abbadi.arstore.authentication.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,18 +27,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
+    private final Security security;
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain chain) throws IOException, ServletException {
-        final String header = request.getHeader("Authorization");
+        final String header = request.getHeader(security.getJwtTokenHeaderName());
         final String jwt;
         final String username;
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith(security.getJwtTokenHeaderPrefix())) {
             chain.doFilter(request, response);
             return;
         }
 
-        jwt = header.substring(7);
+        jwt = header.substring(security.getJwtTokenHeaderPrefix().length());
         username = jwtService.extractUsername(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);

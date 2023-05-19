@@ -1,13 +1,18 @@
 package com.abbadi.arstore.customer.model;
 
+import com.abbadi.arstore.address.model.AddressRequest;
 import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.common.generic.model.GenericRequest;
 import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.common.validation.OnUpdate;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Value;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.List;
 
 import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 
@@ -28,4 +33,7 @@ public class CustomerRequest implements GenericRequest<Long> {
 
     @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
     Gender gender;
+
+    @Valid
+    List<AddressRequest> addresses;
 }

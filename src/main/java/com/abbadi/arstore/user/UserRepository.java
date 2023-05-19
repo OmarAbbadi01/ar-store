@@ -9,4 +9,6 @@ public interface UserRepository extends GenericRepository<Long, UserDto> {
 
     UserDto findUserByEmail(String email);
 
+    Boolean userExistsByEmail(String email);
+
 }

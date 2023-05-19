@@ -32,4 +32,10 @@ public class UserRepositoryImpl extends GenericRepositoryImpl<Long, User, UserDt
         return mapper.toDto(dao.findByEmail(email).orElse(null));
     }
 
+    @Transactional(readOnly = true)
+    @Override
+    public Boolean userExistsByEmail(String email) {
+        return dao.existsByEmail(email);
+    }
+
 }
