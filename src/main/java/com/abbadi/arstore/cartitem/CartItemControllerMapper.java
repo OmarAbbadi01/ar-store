@@ -30,7 +30,7 @@ public class CartItemControllerMapper {
 
     private CartItemResponse mapToResponse(CartItemDto dto) {
         return CartItemResponse.builder()
-                .itemResponse(itemControllerMapper.toResponse(dto.getItemDto()))
+                .item(itemControllerMapper.toResponse(dto.getItemDto()))
                 .quantity(dto.getQuantity())
                 .build();
     }

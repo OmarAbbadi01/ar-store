@@ -13,7 +13,7 @@ public class CartItemResponse implements GenericResponse<CartItemId> {
     @JsonIgnore
     CartItemId id;
 
-    ItemResponse itemResponse;
+    ItemResponse item;
 
     Integer quantity;
 

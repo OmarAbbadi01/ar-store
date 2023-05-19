@@ -45,7 +45,7 @@ public class OrderControllerMapper extends GenericControllerMapper<Long, OrderDt
                 .orderStatus(dto.getOrderStatus())
                 .discount(dto.getDiscount())
                 .totalPrice(dto.getTotalPrice())
-                .orderItemResponses(dto.getOrderItemsDtos()
+                .orderItems(dto.getOrderItemsDtos()
                         .stream()
                         .map(orderItemDto -> OrderItemResponse.builder()
                                 .quantity(orderItemDto.getQuantity())

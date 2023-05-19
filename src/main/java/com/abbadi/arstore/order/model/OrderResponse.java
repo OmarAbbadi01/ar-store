@@ -18,5 +18,5 @@ public class OrderResponse implements GenericResponse<Long> {
 
     Double totalPrice;
 
-    List<OrderItemResponse> orderItemResponses;
+    List<OrderItemResponse> orderItems;
 }
