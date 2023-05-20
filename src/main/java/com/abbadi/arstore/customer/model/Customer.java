@@ -22,8 +22,6 @@ import java.util.List;
 public class Customer implements GenericEntity<Long> {
 
     @Id
-    @SequenceGenerator(name = "customerSequence", sequenceName = "customer_sequence", allocationSize = 1)
-    @GeneratedValue(generator = "customerSequence", strategy = GenerationType.SEQUENCE)
     @Column(name = "id")
     private Long id;
 
@@ -37,7 +35,8 @@ public class Customer implements GenericEntity<Long> {
     private Gender gender;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    @JoinColumn(name = "id", unique = true, nullable = false)
+    @MapsId
     private User user;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

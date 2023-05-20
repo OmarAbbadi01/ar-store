@@ -1,12 +1,13 @@
 package com.abbadi.arstore.authentication.service;
 
-import com.abbadi.arstore.authentication.model.Token;
-import com.abbadi.arstore.authentication.model.CustomerRegisterRequest;
-import com.abbadi.arstore.authentication.model.LoginRequest;
+import com.abbadi.arstore.authentication.model.*;
 import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.customer.CustomerControllerMapper;
 import com.abbadi.arstore.customer.CustomerService;
 import com.abbadi.arstore.customer.model.CustomerDto;
+import com.abbadi.arstore.store.StoreControllerMapper;
+import com.abbadi.arstore.store.StoreService;
+import com.abbadi.arstore.store.model.StoreDto;
 import com.abbadi.arstore.user.UserRepository;
 import com.abbadi.arstore.user.model.UserDto;
 import com.abbadi.arstore.user.model.UserType;
@@ -33,28 +34,51 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final CustomerService customerService;
 
+    private final StoreService storeService;
+
     private final CustomerControllerMapper customerControllerMapper;
 
+    private final StoreControllerMapper storeControllerMapper;
+
     @Override
-    public Token registerCustomer(CustomerRegisterRequest request) {
+    public RegisterationResponse registerCustomer(CustomerRegisterRequest request) {
         UserDto userDto = UserDto.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .userType(UserType.CUSTOMER)
                 .build();
+        validateUser(userDto);
         CustomerDto customerDto = customerControllerMapper.toDto(request.getCustomer());
-        if (userRepository.userExistsByEmail(userDto.getEmail())) {
-            throw ArStoreException.builder()
-                    .message("Account With This Email: %s Already Exists")
-                    .params(Collections.singletonList(userDto.getEmail()))
-                    .status(HttpStatus.BAD_REQUEST)
-                    .build();
-        }
         customerDto.setUserDto(userDto);
-        customerService.create(customerDto);
+        customerDto = customerService.create(customerDto);
 
-        return Token.builder()
-                .value(generateToken(userDto))
+        return RegisterationResponse.builder()
+                .id(customerDto.getUserDto().getId())
+                .token(Token.builder()
+                        .value(generateToken(customerDto.getUserDto()))
+                        .build()
+                )
+                .build();
+    }
+
+    @Override
+    public RegisterationResponse registerStore(StoreReigsterRequest request) {
+        UserDto userDto = UserDto.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .userType(UserType.STORE)
+                .build();
+        validateUser(userDto);
+        StoreDto storeDto = storeControllerMapper.toDto(request.getStore());
+        storeDto.setUserDto(userDto);
+        storeDto = storeService.create(storeDto);
+
+        return RegisterationResponse.builder()
+                .id(storeDto.getUserDto().getId())
+                .token(Token.builder()
+                        .value(generateToken(storeDto.getUserDto()))
+                        .build()
+                )
                 .build();
     }
 
@@ -71,5 +95,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private String generateToken(UserDto userDto) {
         return jwtService.generateToken(userDto);
+    }
+
+    private void validateUser(UserDto userDto) {
+        if (userRepository.userExistsByEmail(userDto.getEmail())) {
+            throw ArStoreException.builder()
+                    .message("Account With This Email: %s Already Exists")
+                    .params(Collections.singletonList(userDto.getEmail()))
+                    .status(HttpStatus.BAD_REQUEST)
+                    .build();
+        }
     }
 }

@@ -4,6 +4,8 @@ import com.abbadi.arstore.order.model.OrderRequest;
 import com.abbadi.arstore.order.model.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,6 +22,7 @@ public class OrderController {
 
     private final OrderControllerMapper mapper;
 
+    @Secured({"CUSTOMER", "STORE"})
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -30,6 +33,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @Secured("CUSTOMER")
     @PostMapping
     public ResponseEntity<URI> createOrder(@RequestBody final OrderRequest request) {
         Long id = service.createOrder(mapper.toDto(request));

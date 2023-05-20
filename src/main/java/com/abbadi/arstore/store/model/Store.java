@@ -29,7 +29,8 @@ public class Store implements GenericEntity<Long> {
     private String phoneNumber;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", unique = true, nullable = false)
+    @JoinColumn(name = "id", unique = true, nullable = false)
+    @MapsId
     private User user;
 
 //    @OneToMany
