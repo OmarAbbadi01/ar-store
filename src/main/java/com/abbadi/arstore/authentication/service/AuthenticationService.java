@@ -1,12 +1,12 @@
 package com.abbadi.arstore.authentication.service;
 
-import com.abbadi.arstore.authentication.model.AuthenticationResponse;
-import com.abbadi.arstore.authentication.model.LoginRequest;
+import com.abbadi.arstore.authentication.model.Token;
 import com.abbadi.arstore.authentication.model.CustomerRegisterRequest;
+import com.abbadi.arstore.authentication.model.LoginRequest;
 
 public interface AuthenticationService {
 
-    AuthenticationResponse registerCustomer(CustomerRegisterRequest request);
+    Token registerCustomer(CustomerRegisterRequest request);
 
-    AuthenticationResponse login(LoginRequest request);
+    Token login(LoginRequest request);
 }

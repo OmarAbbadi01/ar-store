@@ -1,10 +1,13 @@
 package com.abbadi.arstore.authentication.service;
 
+import com.abbadi.arstore.authentication.config.Security;
+import com.abbadi.arstore.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +18,10 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtServiceImpl implements JwtService {
+@RequiredArgsConstructor
+public class JwtHandlerImpl implements JwtHandler {
 
-    private static final String secretKey = "6E5A7234753778214125442A472D4B614E645267556B58703273357638792F42";
+    private final Security security;
 
     @Override
     public String extractUsername(String token) {
@@ -31,25 +35,31 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
+    public String generateToken(Map<String, Object> claims, UserDto userDto) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(userDetails.getUsername())
+                .setSubject(userDto.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * security.getTokenLifeTimeMinutes()))
+                .claim("user-id", userDto.getId())
                 .signWith(getSigingKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDto userDto) {
+        return generateToken(new HashMap<>(), userDto);
     }
 
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+    }
+
+    @Override
+    public Long extractUserId(String token) {
+        return Long.parseLong(extractAllClaims(token).get("user-id").toString());
     }
 
     private boolean isTokenExpired(String token) {
@@ -65,7 +75,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private Key getSigingKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(security.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

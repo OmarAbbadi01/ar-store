@@ -1,14 +1,14 @@
 package com.abbadi.arstore.authentication.filter;
 
-import com.abbadi.arstore.authentication.config.ArStoreConfigProperties;
 import com.abbadi.arstore.authentication.config.Security;
-import com.abbadi.arstore.authentication.service.JwtService;
+import com.abbadi.arstore.authentication.service.JwtHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,7 +23,7 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtService jwtService;
+    private final JwtHandler jwtHandler;
 
     private final UserDetailsService userDetailsService;
 
@@ -41,17 +41,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         jwt = header.substring(security.getJwtTokenHeaderPrefix().length());
-        username = jwtService.extractUsername(jwt);
+        username = jwtHandler.extractUsername(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            if (jwtService.isTokenValid(jwt, userDetails)) {
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+            if (jwtHandler.isTokenValid(jwt, userDetails)) {
+                AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
                         null,
                         userDetails.getAuthorities()
                 );
                 authenticationToken.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request)
+                        jwtHandler.extractUserId(jwt)
                 );
                 SecurityContextHolder.getContext()
                         .setAuthentication(authenticationToken);

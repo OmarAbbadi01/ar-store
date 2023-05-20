@@ -1,10 +1,12 @@
 package com.abbadi.arstore.authentication.controller;
 
-import com.abbadi.arstore.authentication.model.AuthenticationResponse;
+import com.abbadi.arstore.authentication.config.Security;
+import com.abbadi.arstore.authentication.model.Token;
 import com.abbadi.arstore.authentication.model.LoginRequest;
 import com.abbadi.arstore.authentication.model.CustomerRegisterRequest;
 import com.abbadi.arstore.authentication.service.AuthenticationService;
 import com.abbadi.arstore.common.validation.OnCreate;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,14 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
+    private final Security security;
+
     @PostMapping("/register/customer")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid @Validated(OnCreate.class) CustomerRegisterRequest request) {
-        return ResponseEntity.ok(service.registerCustomer(request));
+    public ResponseEntity<Object> register(@RequestBody @Valid @Validated(OnCreate.class) CustomerRegisterRequest request,
+                                           HttpServletResponse response) {
+        Token token = service.registerCustomer(request);
+        response.setHeader(security.getJwtTokenHeaderName(), token.getValue());
+        return ResponseEntity.ok().build();
     }
 
 //    @PostMapping("/register/store")
@@ -32,7 +39,9 @@ public class AuthenticationController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody @Valid LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
+    public ResponseEntity<Object> login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
+        Token token = service.login(request);
+        response.setHeader(security.getJwtTokenHeaderName(), token.getValue());
+        return ResponseEntity.ok().build();
     }
 }
