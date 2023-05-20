@@ -38,8 +38,8 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public List<OrderDto> findAll() {
-        return dao.findAll()
+    public List<OrderDto> findAllCustomerOrders(Long customerId) {
+        return dao.findAllByCustomerId(customerId)
                 .stream()
                 .map(mapper::toDto)
                 .peek(orderDto -> orderDto.setTotalPrice(dao.getOrderTotalPrice(orderDto.getId())))

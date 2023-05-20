@@ -40,7 +40,7 @@ public class Order implements GenericEntity<Long> {
     @Column(name = "discount")
     private Double discount;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 

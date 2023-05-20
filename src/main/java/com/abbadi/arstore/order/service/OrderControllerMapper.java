@@ -6,6 +6,7 @@ import com.abbadi.arstore.item.parent.ItemControllerMapper;
 import com.abbadi.arstore.item.parent.model.ItemDto;
 import com.abbadi.arstore.order.model.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,9 +20,9 @@ public class OrderControllerMapper extends GenericControllerMapper<Long, OrderDt
         return OrderDto.builder()
                 .id(request.getId())
                 .customerDto(CustomerDto.builder()
-                        .id(request.getCustomerId())
+                        .id((Long) SecurityContextHolder.getContext().getAuthentication().getDetails())
                         .build())
-                .orderItemsDtos(request.getItemsRequests()
+                .orderItemsDtos(request.getOrderItems()
                         .stream()
                         .map(
                                 orderItemRequest -> OrderItemDto.builder()
@@ -50,7 +51,7 @@ public class OrderControllerMapper extends GenericControllerMapper<Long, OrderDt
                         .map(orderItemDto -> OrderItemResponse.builder()
                                 .quantity(orderItemDto.getQuantity())
                                 .price(orderItemDto.getPricePerPiece())
-                                .itemResponse(itemControllerMapper.toResponse(orderItemDto.getItemDto()))
+                                .item(itemControllerMapper.toResponse(orderItemDto.getItemDto()))
                                 .build())
                         .toList())
                 .build();

@@ -4,6 +4,7 @@ import com.abbadi.arstore.order.model.OrderRequest;
 import com.abbadi.arstore.order.model.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,7 +22,8 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
-        List<OrderResponse> response = service.findAll()
+        Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        List<OrderResponse> response = service.findAllCustomerOrders(customerId)
                 .stream()
                 .map(mapper::toResponse)
                 .toList();
@@ -36,7 +38,6 @@ public class OrderController {
                 .buildAndExpand(id)
                 .toUri();
         return ResponseEntity.created(uri).build();
-
     }
 
 }

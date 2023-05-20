@@ -8,7 +8,7 @@ public interface OrderService {
 
     Long createOrder(OrderDto newOrderDto);
 
-    List<OrderDto> findAll();
+    List<OrderDto> findAllCustomerOrders(Long customerId);
 
     void approveOrder(Long id);
 

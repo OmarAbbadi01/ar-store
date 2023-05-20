@@ -11,6 +11,6 @@ public class OrderItemResponse {
 
     Double price;
 
-    ItemResponse itemResponse;
+    ItemResponse item;
 
 }

@@ -39,15 +39,11 @@ public class OrderServiceImpl implements OrderService {
         newOrderDto.getOrderItemsDtos()
                 .forEach(orderItemDto ->
                         validateItemsQuantity(orderItemDto.getId().getItemId()));
-//        newOrderDto.getOrderItemsDtos().forEach(orderItemDto -> validateItemsInCart(orderItemDto.getItemDto().getId(), customerId));
 
         newOrderDto.setCreationDate(LocalDate.now());
         newOrderDto.setOrderStatus(OrderStatus.PENDING_APPROVAL);
         newOrderDto.setDiscount(0D); // TODO: should be derived
         newOrderDto.setCustomerDto(customerRepository.findById(customerId));
-//        newOrderDto.setTotalPrice(newOrderDto.getOrderItemsDtos().stream()
-//                .mapToDouble(orderItemDto -> itemRepository.findById(orderItemDto.getItemDto().getId()).getPrice())
-//                .sum());
         newOrderDto.getOrderItemsDtos()
                 .forEach(orderItemDto -> {
                     orderItemDto
@@ -63,8 +59,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDto> findAll() {
-        return orderRepository.findAll();
+    public List<OrderDto> findAllCustomerOrders(Long customerId) {
+        return orderRepository.findAllCustomerOrders(customerId);
     }
 
     @Override

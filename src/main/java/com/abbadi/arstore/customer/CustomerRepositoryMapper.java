@@ -23,10 +23,10 @@ public class CustomerRepositoryMapper extends GenericRepositoryMapper<Long, Cust
                 .name(entity.getName())
                 .gender(entity.getGender())
                 .phoneNumber(entity.getPhoneNumber())
-                .addresses(entity.getAddresses()
+                .addresses(entity.getAddresses() != null ? entity.getAddresses()
                         .stream()
                         .map(addressRepositoryMapper::toDto)
-                        .toList())
+                        .toList() : null)
                 .userDto(userRepositoryMapper.toDto(entity.getUser()))
                 .build();
     }

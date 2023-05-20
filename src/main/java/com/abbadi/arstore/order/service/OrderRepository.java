@@ -8,7 +8,7 @@ public interface OrderRepository {
 
     OrderDto create(OrderDto dto);
 
-    List<OrderDto> findAll();
+    List<OrderDto> findAllCustomerOrders(Long customerId);
 
 
 }
