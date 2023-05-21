@@ -38,8 +38,10 @@ public class Glasses extends Item { // TODO: some types can be converted to enum
     private String shape;
 
     @Builder(builderMethodName = "glassesBuilder")
-    public Glasses(Long id, String description, Store store, Brand brand, List<CartItem> cartItems, String model, String color, String type, Gender gender, Double price, String border, String shape) {
-        super(id, description, price, store, brand, cartItems);
+    public Glasses(Long id, String description, Store store, Brand brand, List<CartItem> cartItems, String model,
+                   String color, String type, Gender gender, Double price, String border, String shape, Double rating,
+                   Integer numberOfVotes) {
+        super(id, description, price, rating, numberOfVotes, store, brand, cartItems);
         this.model = model;
         this.color = color;
         this.type = type;

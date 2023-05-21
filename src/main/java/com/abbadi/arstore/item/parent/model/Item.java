@@ -32,6 +32,12 @@ public class Item implements GenericEntity<Long> {
     @Column(name = "price")
     private Double price;
 
+    @Column(name = "rating")
+    protected Double rating;
+
+    @Column(name = "number_of_votes")
+    protected Integer numberOfVotes;
+
     @ManyToOne
     @JoinColumn(name = "store_id")
     protected Store store;

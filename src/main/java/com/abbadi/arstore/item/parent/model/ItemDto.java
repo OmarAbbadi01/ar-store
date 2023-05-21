@@ -20,6 +20,10 @@ public class ItemDto implements GenericDto<Long> {
 
     protected Double price;
 
+    protected Double rating;
+
+    protected Integer numberOfVotes;
+
     protected StoreDto storeDto;
 
     protected BrandDto brandDto;

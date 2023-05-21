@@ -30,6 +30,8 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .type(entity.getType())
                 .gender(entity.getGender())
                 .price(entity.getPrice())
+                .rating(entity.getRating())
+                .numberOfVotes(entity.getNumberOfVotes())
                 .border(entity.getBorder())
                 .shape(entity.getShape())
                 .build();
@@ -47,6 +49,8 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .type(dto.getType())
                 .gender(dto.getGender())
                 .price(dto.getPrice())
+                .rating(dto.getRating())
+                .numberOfVotes(dto.getNumberOfVotes())
                 .border(dto.getBorder())
                 .shape(dto.getShape())
                 .build();

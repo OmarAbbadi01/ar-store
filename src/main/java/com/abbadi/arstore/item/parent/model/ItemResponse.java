@@ -18,6 +18,8 @@ public class ItemResponse implements GenericResponse<Long> {
 
     protected final Double price;
 
+    protected final Double rating;
+
     protected final StoreResponse store;
 
     protected final BrandResponse brand;

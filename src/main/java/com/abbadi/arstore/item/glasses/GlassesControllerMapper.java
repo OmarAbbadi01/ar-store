@@ -8,6 +8,7 @@ import com.abbadi.arstore.item.glasses.model.GlassesResponse;
 import com.abbadi.arstore.store.StoreController;
 import com.abbadi.arstore.store.StoreControllerMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,7 @@ public class GlassesControllerMapper extends GenericControllerMapper<Long, Glass
         return GlassesDto.glassesDtoBuilder()
                 .id(request.getId())
                 .description(request.getDescription())
-                .storeId(request.getStoreId())
+                .storeId((Long) SecurityContextHolder.getContext().getAuthentication().getDetails())
                 .brandId(request.getBrandId())
                 .model(request.getModel())
                 .color(request.getColor())
@@ -47,6 +48,7 @@ public class GlassesControllerMapper extends GenericControllerMapper<Long, Glass
                 .type(dto.getType())
                 .gender(dto.getGender())
                 .price(dto.getPrice())
+                .rating(dto.getRating())
                 .border(dto.getBorder())
                 .shape(dto.getShape())
                 .build();

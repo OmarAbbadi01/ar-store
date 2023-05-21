@@ -17,9 +17,6 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 public class GlassesRequest extends ItemRequest implements GenericRequest<Long> {
 
     @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    private final Long storeId;
-
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
     private final Long brandId;
 
     @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
@@ -45,10 +42,9 @@ public class GlassesRequest extends ItemRequest implements GenericRequest<Long> 
     @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
     private final String shape;
 
-    public GlassesRequest(Long id, String description, Long storeId, Long brandId, String model, String color, String type,
+    public GlassesRequest(Long id, String description, Long brandId, String model, String color, String type,
                           Gender gender, Double price, String border, String shape) {
         super(id, description, price);
-        this.storeId = storeId;
         this.brandId = brandId;
         this.model = model;
         this.color = color;

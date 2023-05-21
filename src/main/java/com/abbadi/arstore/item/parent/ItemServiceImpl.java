@@ -14,4 +14,13 @@ public class ItemServiceImpl extends GenericServiceImpl<Long, ItemDto> implement
         super(repository);
         this.repository = repository;
     }
+
+    @Override
+    public ItemDto beforeUpdate(ItemDto itemDto) {
+        Double rating = repository.findById(itemDto.getId()).getRating();
+        Integer numberOfVotes = repository.findById(itemDto.getId()).getNumberOfVotes();
+        itemDto.setRating(rating);
+        itemDto.setNumberOfVotes(numberOfVotes);
+        return itemDto;
+    }
 }

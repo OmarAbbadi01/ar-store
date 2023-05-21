@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         jwt = header.substring(security.getJwtTokenHeaderPrefix().length());
         username = jwtHandler.extractUsername(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);// TODO: replace with username from token
             if (jwtHandler.isTokenValid(jwt, userDetails)) {
                 AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
