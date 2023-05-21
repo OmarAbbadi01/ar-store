@@ -4,6 +4,7 @@ import com.abbadi.arstore.common.exception.ArStoreExceptionMessages;
 import com.abbadi.arstore.common.generic.model.GenericRequest;
 import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.common.validation.OnUpdate;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
@@ -20,6 +21,7 @@ public class OrderRequest implements GenericRequest<Long> {
 
     @NotNull(message = ArStoreExceptionMessages.CAN_NOT_BE_NULL)
     @NotEmpty(message = ArStoreExceptionMessages.CAN_NOT_BE_EMPTY)
+    @Valid
     List<OrderItemRequest> orderItems;
 
 }

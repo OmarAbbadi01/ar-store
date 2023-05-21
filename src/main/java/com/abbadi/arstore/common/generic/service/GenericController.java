@@ -5,6 +5,7 @@ import com.abbadi.arstore.common.generic.model.GenericRequest;
 import com.abbadi.arstore.common.generic.model.GenericResponse;
 import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.common.validation.OnUpdate;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RequiredArgsConstructor
+@Validated
 public abstract class GenericController<Id extends Serializable, Dto extends GenericDto<Id>, Req extends GenericRequest<Id>,
         Res extends GenericResponse<Id>> {
 
@@ -39,7 +41,8 @@ public abstract class GenericController<Id extends Serializable, Dto extends Gen
     }
 
     @PostMapping
-    public ResponseEntity<URI> create(@RequestBody @Validated(value = OnCreate.class) final Req request) {
+    @Validated(value = OnCreate.class)
+    public ResponseEntity<URI> create(@RequestBody @Valid final Req request) {
         Dto dto = service.create(mapper.toDto(request));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -50,7 +53,8 @@ public abstract class GenericController<Id extends Serializable, Dto extends Gen
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Res> update(@RequestBody @Validated(value = OnUpdate.class) final Req request,
+    @Validated(value = OnUpdate.class)
+    public ResponseEntity<Res> update(@RequestBody @Valid final Req request,
                                       @PathVariable("id") final Id id) {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();

@@ -13,24 +13,23 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 @Value
 public class AddressRequest implements GenericRequest<Long> {
 
-    @Null(groups = OnCreate.class, message = MUST_BE_NULL)
-    @NotNull(groups = OnUpdate.class, message = CAN_NOT_BE_NULL)
+    @NotNull(message = ID_CAN_NOT_BE_NULL, groups = OnUpdate.class)
     Long id;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String country;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String city;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String street;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String zip;
 
 }

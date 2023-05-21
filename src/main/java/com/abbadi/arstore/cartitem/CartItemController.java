@@ -8,6 +8,7 @@ import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.common.validation.OnUpdate;
 import com.abbadi.arstore.item.parent.ItemControllerMapper;
 import com.abbadi.arstore.item.parent.model.ItemResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -40,7 +41,7 @@ public class CartItemController {
     }
 
     @PostMapping
-    public ResponseEntity<CartItemResponse> addItem(@RequestBody @Validated(OnCreate.class) final CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> addItem(@RequestBody @Valid final CartItemRequest request) {
         CartItemDto dto = mapper.toDto(request);
         CartItemId id = service.create(dto);
         URI uri = ServletUriComponentsBuilder
@@ -52,7 +53,7 @@ public class CartItemController {
     }
 
     @PutMapping
-    public ResponseEntity<CartItemResponse> updateQuantity(@RequestBody @Validated(OnUpdate.class) final CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> updateQuantity(@RequestBody @Valid final CartItemRequest request) {
         CartItemDto dto = mapper.toDto(request);
         service.update(dto);
         return ResponseEntity.ok().build();

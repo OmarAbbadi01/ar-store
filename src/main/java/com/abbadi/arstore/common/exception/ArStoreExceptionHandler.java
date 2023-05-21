@@ -1,5 +1,7 @@
 package com.abbadi.arstore.common.exception;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +41,21 @@ public class ArStoreExceptionHandler {
                 .map(f -> String.format(f.getDefaultMessage(), f.getField(), f.getRejectedValue()))
                 .toList();
 
+        ExceptionResponse response = ExceptionResponse.builder()
+                .timestamp(ZonedDateTime.now())
+                .messages(messages)
+                .status(HttpStatus.BAD_REQUEST)
+                .build();
+        return new ResponseEntity<>(response, response.getStatus());
+    }
+
+    @ExceptionHandler(value = ConstraintViolationException.class)
+    public ResponseEntity<ExceptionResponse> handleConstraintsViolation(ConstraintViolationException exception) {
+        List<String> messages = exception.getConstraintViolations()
+                .stream()
+                .sorted(Comparator.comparing(ConstraintViolation::getMessage))
+                .map(ConstraintViolation::getMessage)
+                .toList();
         ExceptionResponse response = ExceptionResponse.builder()
                 .timestamp(ZonedDateTime.now())
                 .messages(messages)

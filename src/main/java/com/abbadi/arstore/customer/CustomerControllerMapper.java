@@ -21,10 +21,6 @@ public class CustomerControllerMapper extends GenericControllerMapper<Long, Cust
                 .name(request.getName())
                 .gender(request.getGender())
                 .phoneNumber(request.getPhoneNumber())
-                .addresses(request.getAddresses()
-                        .stream()
-                        .map(addressControllerMapper::toDto)
-                        .toList())
                 .build();
     }
 

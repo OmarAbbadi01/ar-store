@@ -13,16 +13,16 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 @Value
 public class BrandRequest implements GenericRequest<Long> {
 
-    @Null(groups = OnCreate.class, message = MUST_BE_NULL)
-    @NotNull(groups = OnUpdate.class, message = CAN_NOT_BE_NULL)
+    @Null(groups = OnCreate.class, message = ID_MUST_BE_NULL)
+    @NotNull(groups = OnUpdate.class, message = ID_CAN_NOT_BE_NULL)
     Long id;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String name;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     String countryOfOrigin;
 
 }

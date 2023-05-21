@@ -4,6 +4,7 @@ import com.abbadi.arstore.common.validation.OnUpdate;
 import com.abbadi.arstore.customer.model.CustomerDto;
 import com.abbadi.arstore.customer.model.CustomerRequest;
 import com.abbadi.arstore.customer.model.CustomerResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
+@Validated
 public class CustomerController {
 
     private final CustomerService service;
@@ -36,7 +38,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerRequest> update(@RequestBody @Validated(value = OnUpdate.class) final CustomerRequest request,
+    @Validated(value = OnUpdate.class)
+    public ResponseEntity<CustomerRequest> update(@RequestBody @Valid final CustomerRequest request,
                                                   @PathVariable("id") final Long id) {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();

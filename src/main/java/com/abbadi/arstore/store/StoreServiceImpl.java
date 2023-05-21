@@ -21,7 +21,7 @@ public class StoreServiceImpl extends GenericServiceImpl<Long, StoreDto> impleme
 
     @Override
     protected StoreDto beforeUpdate(StoreDto dto) {
-        UserDto userDto = userRepository.findUserByStoreId(dto.getId());
+        UserDto userDto = userRepository.findById(dto.getId());
         dto.setUserDto(userDto);
         return dto;
     }

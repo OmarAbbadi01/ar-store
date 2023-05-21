@@ -38,12 +38,9 @@ public class CustomerServiceImpl extends GenericServiceImpl<Long, CustomerDto> i
                     .build();
         }
         CustomerDto oldDto = repository.findById(id);
-        if (!dto.getAddresses().equals(oldDto.getAddresses())) {
-            dto.setAddresses(oldDto.getAddresses());
-        }
-        if (!dto.getUserDto().equals(oldDto.getUserDto())) {
-            dto.setUserDto(oldDto.getUserDto());
-        }
+        dto.setAddresses(oldDto.getAddresses());
+        dto.setUserDto(oldDto.getUserDto());
+
         repository.update(dto);
     }
 }

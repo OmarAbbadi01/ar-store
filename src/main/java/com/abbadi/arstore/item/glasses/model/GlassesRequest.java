@@ -16,30 +16,30 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 @Getter
 public class GlassesRequest extends ItemRequest implements GenericRequest<Long> {
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
     private final Long brandId;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     private final String model;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     private final String color;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
     @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
     private final String type;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
     private final Gender gender;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     private final String border;
 
-    @NotNull(message = CAN_NOT_BE_NULL, groups = {OnUpdate.class, OnCreate.class})
-    @NotEmpty(message = CAN_NOT_BE_EMPTY, groups = {OnUpdate.class, OnCreate.class})
+    @NotNull(message = CAN_NOT_BE_NULL)
+    @NotEmpty(message = CAN_NOT_BE_EMPTY)
     private final String shape;
 
     public GlassesRequest(Long id, String description, Long brandId, String model, String color, String type,

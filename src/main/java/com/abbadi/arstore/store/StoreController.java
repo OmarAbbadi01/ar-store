@@ -4,6 +4,7 @@ import com.abbadi.arstore.common.validation.OnUpdate;
 import com.abbadi.arstore.store.model.StoreDto;
 import com.abbadi.arstore.store.model.StoreRequest;
 import com.abbadi.arstore.store.model.StoreResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/stores")
 @RequiredArgsConstructor
+@Validated
 public class StoreController {
 
     private final StoreService service;
@@ -36,7 +38,8 @@ public class StoreController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StoreResponse> update(@RequestBody @Validated(value = OnUpdate.class) final StoreRequest request,
+    @Validated(value = OnUpdate.class)
+    public ResponseEntity<StoreResponse> update(@RequestBody @Valid final StoreRequest request,
                                                 @PathVariable("id") final Long id) {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();
