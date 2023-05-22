@@ -7,6 +7,7 @@ import com.abbadi.arstore.customer.model.CustomerResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
 @Validated
+@Secured({"CUSTOMER", "ADMIN"})
 public class CustomerController {
 
     private final CustomerService service;

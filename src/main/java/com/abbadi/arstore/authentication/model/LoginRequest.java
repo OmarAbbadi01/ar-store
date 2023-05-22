@@ -7,7 +7,7 @@ import lombok.Value;
 @Value
 public class LoginRequest {
 
-    @Email
+    @Email(message = "Not an email")
     @NotNull(message = "Email Can't Be Null")
     String email;
 

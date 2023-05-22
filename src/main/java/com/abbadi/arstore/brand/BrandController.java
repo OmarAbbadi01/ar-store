@@ -4,11 +4,13 @@ import com.abbadi.arstore.brand.model.BrandDto;
 import com.abbadi.arstore.brand.model.BrandRequest;
 import com.abbadi.arstore.brand.model.BrandResponse;
 import com.abbadi.arstore.common.generic.service.GenericController;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/brands")
+@Secured({"STORE", "ADMIN"})
 public class BrandController extends GenericController<Long, BrandDto, BrandRequest, BrandResponse> {
 
     private final BrandService service;
