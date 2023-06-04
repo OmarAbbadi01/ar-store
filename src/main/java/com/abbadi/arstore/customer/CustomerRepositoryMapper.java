@@ -38,10 +38,10 @@ public class CustomerRepositoryMapper extends GenericRepositoryMapper<Long, Cust
                 .name(dto.getName())
                 .gender(dto.getGender())
                 .phoneNumber(dto.getPhoneNumber())
-                .addresses(dto.getAddresses()
+                .addresses(dto.getAddresses() != null ? dto.getAddresses()
                         .stream()
                         .map(addressRepositoryMapper::toEntity)
-                        .toList())
+                        .toList() : null)
                 .user(userRepositoryMapper.toEntity(dto.getUserDto()))
                 .build();
     }
