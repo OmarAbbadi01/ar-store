@@ -4,9 +4,9 @@ import com.abbadi.arstore.authentication.model.*;
 
 public interface AuthenticationService {
 
-    RegisterationResponse registerCustomer(CustomerRegisterRequest request);
+    RegistrationResponse registerCustomer(CustomerRegisterRequest request);
 
-    RegisterationResponse registerStore(StoreReigsterRequest request);
+    RegistrationResponse registerStore(StoreReigsterRequest request);
 
     Token login(LoginRequest request);
 }

@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class RegisterationResponse {
+public class RegistrationResponse {
 
     Token token;
 

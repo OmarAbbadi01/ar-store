@@ -41,7 +41,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final StoreControllerMapper storeControllerMapper;
 
     @Override
-    public RegisterationResponse registerCustomer(CustomerRegisterRequest request) {
+    public RegistrationResponse registerCustomer(CustomerRegisterRequest request) {
         UserDto userDto = UserDto.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -52,7 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         customerDto.setUserDto(userDto);
         customerDto = customerService.create(customerDto);
 
-        return RegisterationResponse.builder()
+        return RegistrationResponse.builder()
                 .id(customerDto.getUserDto().getId())
                 .token(Token.builder()
                         .value(generateToken(customerDto.getUserDto()))
@@ -62,7 +62,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public RegisterationResponse registerStore(StoreReigsterRequest request) {
+    public RegistrationResponse registerStore(StoreReigsterRequest request) {
         UserDto userDto = UserDto.builder()
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
@@ -73,7 +73,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         storeDto.setUserDto(userDto);
         storeDto = storeService.create(storeDto);
 
-        return RegisterationResponse.builder()
+        return RegistrationResponse.builder()
                 .id(storeDto.getUserDto().getId())
                 .token(Token.builder()
                         .value(generateToken(storeDto.getUserDto()))
