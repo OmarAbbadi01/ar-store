@@ -1,6 +1,7 @@
 package com.abbadi.arstore.address.model;
 
 import com.abbadi.arstore.common.generic.model.GenericEntity;
+import com.abbadi.arstore.customer.model.Customer;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +33,8 @@ public class Address implements GenericEntity<Long> {
 
     @Column(name = "zip")
     private String zip;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
 }

@@ -1,6 +1,7 @@
 package com.abbadi.arstore.address.model;
 
 import com.abbadi.arstore.common.generic.model.GenericDto;
+import com.abbadi.arstore.customer.model.CustomerDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,5 +18,7 @@ public class AddressDto implements GenericDto<Long> {
     private String street;
 
     private String zip;
+
+    private CustomerDto customerDto;
 
 }

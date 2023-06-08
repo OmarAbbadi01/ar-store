@@ -14,6 +14,7 @@ import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 public class AddressRequest implements GenericRequest<Long> {
 
     @NotNull(message = ID_CAN_NOT_BE_NULL, groups = OnUpdate.class)
+    @Null(message = ID_MUST_BE_NULL, groups = OnCreate.class)
     Long id;
 
     @NotNull(message = CAN_NOT_BE_NULL)

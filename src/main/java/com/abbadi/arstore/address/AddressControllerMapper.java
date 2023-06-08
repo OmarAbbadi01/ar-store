@@ -3,7 +3,8 @@ package com.abbadi.arstore.address;
 import com.abbadi.arstore.address.model.AddressDto;
 import com.abbadi.arstore.address.model.AddressRequest;
 import com.abbadi.arstore.address.model.AddressResponse;
-import org.springframework.stereotype.Component;
+import com.abbadi.arstore.customer.model.CustomerDto;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AddressControllerMapper {
 
@@ -15,6 +16,9 @@ public class AddressControllerMapper {
                         .city(request.getCity())
                         .street(request.getStreet())
                         .zip(request.getZip())
+                        .customerDto(CustomerDto.builder()
+                                .id((Long) SecurityContextHolder.getContext().getAuthentication().getDetails())
+                                .build())
                         .build() : null;
     }
 
