@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.abbadi.arstore.store.StoreControllerMapper.toDto;
+import static com.abbadi.arstore.store.StoreControllerMapper.toResponse;
+
 @RestController
 @RequestMapping("/api/stores")
 @RequiredArgsConstructor
@@ -20,19 +23,17 @@ public class StoreController {
 
     private final StoreService service;
 
-    private final StoreControllerMapper mapper;
-
     @GetMapping("/{id}")
     public ResponseEntity<StoreResponse> findById(@PathVariable("id") final Long id) {
         StoreDto dto = service.findById(id);
-        return ResponseEntity.ok(mapper.toResponse(dto));
+        return ResponseEntity.ok(toResponse(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<StoreResponse>> findAll() {
         List<StoreResponse> responses = service.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(StoreControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(responses);
     }
@@ -44,7 +45,7 @@ public class StoreController {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();
         }
-        service.update(mapper.toDto(request));
+        service.update(toDto(request));
         return ResponseEntity.ok().build();
     }
 

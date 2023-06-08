@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.abbadi.arstore.customer.CustomerControllerMapper.toDto;
+import static com.abbadi.arstore.customer.CustomerControllerMapper.toResponse;
+
 @RestController
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
@@ -22,19 +25,17 @@ public class CustomerController {
 
     private final CustomerService service;
 
-    private final CustomerControllerMapper mapper;
-
     @GetMapping("/{id}")
     public ResponseEntity<CustomerResponse> findById(@PathVariable("id") final Long id) {
         CustomerDto customerDto = service.findById(id);
-        return ResponseEntity.ok(mapper.toResponse(customerDto));
+        return ResponseEntity.ok(toResponse(customerDto));
     }
 
     @GetMapping
     public ResponseEntity<List<CustomerResponse>> findAll() {
         List<CustomerResponse> response = service.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(CustomerControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(response);
     }
@@ -46,7 +47,7 @@ public class CustomerController {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();
         }
-        service.update(mapper.toDto(request));
+        service.update(toDto(request));
         return ResponseEntity.ok().build();
     }
 

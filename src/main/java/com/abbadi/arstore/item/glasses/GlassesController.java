@@ -17,6 +17,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.abbadi.arstore.item.glasses.GlassesControllerMapper.toDto;
+import static com.abbadi.arstore.item.glasses.GlassesControllerMapper.toResponse;
+
 @RestController
 @RequestMapping("/api/glasses")
 @RequiredArgsConstructor
@@ -24,19 +27,17 @@ public class GlassesController {
 
     private final GlassesService service;
 
-    private final GlassesControllerMapper mapper;
-
     @GetMapping("/{id}")
     public ResponseEntity<GlassesResponse> findById(@PathVariable("id") final Long id) {
         GlassesDto dto = service.findById(id);
-        return ResponseEntity.ok(mapper.toResponse(dto));
+        return ResponseEntity.ok(toResponse(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<GlassesResponse>> findAll() {
         List<GlassesResponse> responses = service.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(GlassesControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(responses);
     }
@@ -45,7 +46,7 @@ public class GlassesController {
     @Validated(value = OnCreate.class)
     @Secured("STORE")
     public ResponseEntity<URI> create(@RequestBody @Valid final GlassesRequest request) {
-        GlassesDto dto = service.create(mapper.toDto(request));
+        GlassesDto dto = service.create(toDto(request));
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
@@ -62,7 +63,7 @@ public class GlassesController {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();
         }
-        service.update(mapper.toDto(request));
+        service.update(toDto(request));
         return ResponseEntity.ok().build();
     }
 

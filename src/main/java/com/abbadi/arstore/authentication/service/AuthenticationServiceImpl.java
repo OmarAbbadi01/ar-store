@@ -36,10 +36,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final StoreService storeService;
 
-    private final CustomerControllerMapper customerControllerMapper;
-
-    private final StoreControllerMapper storeControllerMapper;
-
     @Override
     public RegistrationResponse registerCustomer(CustomerRegisterRequest request) {
         UserDto userDto = UserDto.builder()
@@ -48,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .userType(UserType.CUSTOMER)
                 .build();
         validateUser(userDto);
-        CustomerDto customerDto = customerControllerMapper.toDto(request.getCustomer());
+        CustomerDto customerDto = CustomerControllerMapper.toDto(request.getCustomer());
         customerDto.setUserDto(userDto);
         customerDto = customerService.create(customerDto);
 
@@ -69,7 +65,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .userType(UserType.STORE)
                 .build();
         validateUser(userDto);
-        StoreDto storeDto = storeControllerMapper.toDto(request.getStore());
+        StoreDto storeDto = StoreControllerMapper.toDto(request.getStore());
         storeDto.setUserDto(userDto);
         storeDto = storeService.create(storeDto);
 

@@ -15,6 +15,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.abbadi.arstore.inventory.InventoryControllerMapper.toDto;
+
 @RestController
 @RequestMapping("/api/inventory")
 @RequiredArgsConstructor
@@ -23,21 +25,19 @@ public class InventoryController {
 
     private final InventoryService service;
 
-    private final InventoryControllerMapper mapper;
-
     @GetMapping
     public ResponseEntity<List<InventoryItemResponse>> findAllItems() {
         Long storeId = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         List<InventoryItemResponse> responses = service.findAll(storeId)
                 .stream()
-                .map(mapper::toResponse)
+                .map(InventoryControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(responses);
     }
 
     @PostMapping
     public ResponseEntity<InventoryItemResponse> addItem(@RequestBody @Valid final InventoryItemRequest request) {
-        InventoryItemDto dto = mapper.toDto(request);
+        InventoryItemDto dto = toDto(request);
         InventoryItemId id = service.create(dto);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -49,7 +49,7 @@ public class InventoryController {
 
     @PutMapping
     public ResponseEntity<InventoryItemResponse> updateQuantity(@RequestBody @Valid final InventoryItemRequest request) {
-        InventoryItemDto dto = mapper.toDto(request);
+        InventoryItemDto dto = toDto(request);
         service.update(dto);
         return ResponseEntity.ok().build();
     }
@@ -64,6 +64,5 @@ public class InventoryController {
         service.delete(id);
         return ResponseEntity.ok().build();
     }
-
 
 }

@@ -16,6 +16,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.abbadi.arstore.order.service.OrderControllerMapper.toDto;
+
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
@@ -24,15 +26,13 @@ public class OrderController {
 
     private final OrderService service;
 
-    private final OrderControllerMapper mapper;
-
     @Secured({"CUSTOMER", "STORE"})
     @GetMapping
     public ResponseEntity<List<OrderResponse>> getAllOrders() {
         Long customerId = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         List<OrderResponse> response = service.findAllCustomerOrders(customerId)
                 .stream()
-                .map(mapper::toResponse)
+                .map(OrderControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(response);
     }
@@ -41,7 +41,7 @@ public class OrderController {
     @PostMapping
     @Validated(OnCreate.class)
     public ResponseEntity<URI> createOrder(@RequestBody @Valid final OrderRequest request) {
-        Long id = service.createOrder(mapper.toDto(request));
+        Long id = service.createOrder(toDto(request));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(id)

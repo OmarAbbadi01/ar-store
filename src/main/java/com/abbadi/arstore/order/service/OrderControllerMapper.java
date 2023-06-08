@@ -1,59 +1,53 @@
 package com.abbadi.arstore.order.service;
 
-import com.abbadi.arstore.common.generic.service.GenericControllerMapper;
 import com.abbadi.arstore.customer.model.CustomerDto;
 import com.abbadi.arstore.item.parent.ItemControllerMapper;
 import com.abbadi.arstore.item.parent.model.ItemDto;
 import com.abbadi.arstore.order.model.*;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class OrderControllerMapper extends GenericControllerMapper<Long, OrderDto, OrderRequest, OrderResponse> {
+public class OrderControllerMapper {
 
-    private final ItemControllerMapper itemControllerMapper;
-
-    @Override
-    protected OrderDto mapToDto(OrderRequest request) {
-        return OrderDto.builder()
-                .id(request.getId())
-                .customerDto(CustomerDto.builder()
-                        .id((Long) SecurityContextHolder.getContext().getAuthentication().getDetails())
-                        .build())
-                .orderItemsDtos(request.getOrderItems()
-                        .stream()
-                        .map(
-                                orderItemRequest -> OrderItemDto.builder()
-                                        .id(OrderItemIdDto.builder()
-                                                .itemId(orderItemRequest.getItemId())
-                                                .build())
-                                        .quantity(orderItemRequest.getQuantity())
-                                        .itemDto(ItemDto.builder()
-                                                .id(orderItemRequest.getItemId())
-                                                .build())
-                                        .build()
-                        )
-                        .toList())
-                .build();
-    }
-
-    @Override
-    protected OrderResponse mapToResponse(OrderDto dto) {
-        return OrderResponse.builder()
-                .id(dto.getId())
-                .orderStatus(dto.getOrderStatus())
-                .discount(dto.getDiscount())
-                .totalPrice(dto.getTotalPrice())
-                .orderItems(dto.getOrderItemsDtos()
-                        .stream()
-                        .map(orderItemDto -> OrderItemResponse.builder()
-                                .quantity(orderItemDto.getQuantity())
-                                .price(orderItemDto.getPricePerPiece())
-                                .item(itemControllerMapper.toResponse(orderItemDto.getItemDto()))
+    public static OrderDto toDto(OrderRequest request) {
+        return request != null ?
+                OrderDto.builder()
+                        .id(request.getId())
+                        .customerDto(CustomerDto.builder()
+                                .id((Long) SecurityContextHolder.getContext().getAuthentication().getDetails())
                                 .build())
-                        .toList())
-                .build();
+                        .orderItemsDtos(request.getOrderItems()
+                                .stream()
+                                .map(
+                                        orderItemRequest -> OrderItemDto.builder()
+                                                .id(OrderItemIdDto.builder()
+                                                        .itemId(orderItemRequest.getItemId())
+                                                        .build())
+                                                .quantity(orderItemRequest.getQuantity())
+                                                .itemDto(ItemDto.builder()
+                                                        .id(orderItemRequest.getItemId())
+                                                        .build())
+                                                .build()
+                                )
+                                .toList())
+                        .build() : null;
     }
+
+    public static OrderResponse toResponse(OrderDto dto) {
+        return dto != null ?
+                OrderResponse.builder()
+                        .id(dto.getId())
+                        .orderStatus(dto.getOrderStatus())
+                        .discount(dto.getDiscount())
+                        .totalPrice(dto.getTotalPrice())
+                        .orderItems(dto.getOrderItemsDtos()
+                                .stream()
+                                .map(orderItemDto -> OrderItemResponse.builder()
+                                        .quantity(orderItemDto.getQuantity())
+                                        .price(orderItemDto.getPricePerPiece())
+                                        .item(ItemControllerMapper.toResponse(orderItemDto.getItemDto()))
+                                        .build())
+                                .toList())
+                        .build() : null;
+    }
+
 }

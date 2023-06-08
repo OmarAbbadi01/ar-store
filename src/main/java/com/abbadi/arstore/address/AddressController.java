@@ -15,6 +15,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.abbadi.arstore.address.AddressControllerMapper.toDto;
+import static com.abbadi.arstore.address.AddressControllerMapper.toResponse;
+
 @RestController
 @RequestMapping("/api/addresses")
 @RequiredArgsConstructor
@@ -23,19 +26,17 @@ public class AddressController {
 
     private final AddressService service;
 
-    private final AddressControllerMapper mapper;
-
     @GetMapping("/{id}")
     public ResponseEntity<AddressResponse> findById(@PathVariable("id") final Long id) {
         AddressDto dto = service.findById(id);
-        return ResponseEntity.ok(mapper.toResponse(dto));
+        return ResponseEntity.ok(toResponse(dto));
     }
 
     @GetMapping
     public ResponseEntity<List<AddressResponse>> findAll() {
         List<AddressResponse> responses = service.findAll()
                 .stream()
-                .map(mapper::toResponse)
+                .map(AddressControllerMapper::toResponse)
                 .toList();
         return ResponseEntity.ok(responses);
     }
@@ -47,7 +48,7 @@ public class AddressController {
         if (!request.getId().equals(id)) {
             return ResponseEntity.badRequest().build();
         }
-        service.update(mapper.toDto(request));
+        service.update(toDto(request));
         return ResponseEntity.ok().build();
     }
 
