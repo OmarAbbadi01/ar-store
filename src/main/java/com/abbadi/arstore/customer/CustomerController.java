@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,25 +21,26 @@ import static com.abbadi.arstore.customer.CustomerControllerMapper.toResponse;
 @RequestMapping("/api/customers")
 @RequiredArgsConstructor
 @Validated
-@Secured({"CUSTOMER", "ADMIN"})
+@Secured("CUSTOMER")
 public class CustomerController {
 
     private final CustomerService service;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerResponse> findById(@PathVariable("id") final Long id) {
+    @GetMapping()
+    public ResponseEntity<CustomerResponse> findById() {
+        Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         CustomerDto customerDto = service.findById(id);
         return ResponseEntity.ok(toResponse(customerDto));
     }
 
-    @GetMapping
-    public ResponseEntity<List<CustomerResponse>> findAll() {
-        List<CustomerResponse> response = service.findAll()
-                .stream()
-                .map(CustomerControllerMapper::toResponse)
-                .toList();
-        return ResponseEntity.ok(response);
-    }
+//    @GetMapping
+//    public ResponseEntity<List<CustomerResponse>> findAll() {
+//        List<CustomerResponse> response = service.findAll()
+//                .stream()
+//                .map(CustomerControllerMapper::toResponse)
+//                .toList();
+//        return ResponseEntity.ok(response);
+//    }
 
     @PutMapping("/{id}")
     @Validated(value = OnUpdate.class)
