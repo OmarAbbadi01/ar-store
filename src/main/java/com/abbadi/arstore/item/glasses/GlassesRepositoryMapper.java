@@ -37,10 +37,10 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .numberOfVotes(entity.getNumberOfVotes())
                 .border(entity.getBorder())
                 .shape(entity.getShape())
-                .photosDtos(entity.getPhotos()
+                .photosDtos(entity.getPhotos() != null ? entity.getPhotos()
                         .stream()
                         .map(photoRepositoryMapper::toDto)
-                        .toList())
+                        .toList() : null)
                 .build();
     }
 
@@ -60,10 +60,10 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .numberOfVotes(dto.getNumberOfVotes())
                 .border(dto.getBorder())
                 .shape(dto.getShape())
-                .photos(dto.getPhotosDtos()
+                .photos(dto.getPhotosDtos() != null ? dto.getPhotosDtos()
                         .stream()
                         .map(photoRepositoryMapper::toEntity)
-                        .toList())
+                        .toList() : null)
                 .build();
     }
 }

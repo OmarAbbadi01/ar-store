@@ -5,6 +5,8 @@ import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.common.exception.ArStoreExceptionMessages;
 import com.abbadi.arstore.common.generic.service.GenericServiceImpl;
 import com.abbadi.arstore.inventory.InventoryRepository;
+import com.abbadi.arstore.inventory.model.InventoryItem;
+import com.abbadi.arstore.inventory.model.InventoryItemDto;
 import com.abbadi.arstore.inventory.model.InventoryItemId;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
 import com.abbadi.arstore.item.photo.PhotoRepository;
@@ -69,11 +71,11 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
         return repository.findAll()
                 .stream()
                 .peek(dto -> {
-                    Integer quantity = inventoryRepository.findById(InventoryItemId.builder()
-                                    .storeId(dto.getStoreId())
-                                    .itemId(dto.getId())
-                                    .build())
-                            .getQuantity();
+                    InventoryItemDto inventoryItemDto = inventoryRepository.findById(InventoryItemId.builder()
+                            .storeId(dto.getStoreId())
+                            .itemId(dto.getId())
+                            .build());
+                    Integer quantity = inventoryItemDto != null ? inventoryItemDto.getQuantity() : 0;
                     dto.setQuantity(quantity);
                 })
                 .toList();
