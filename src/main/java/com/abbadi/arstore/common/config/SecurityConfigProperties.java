@@ -1,4 +1,4 @@
-package com.abbadi.arstore.authentication.config;
+package com.abbadi.arstore.common.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-public class Security {
+public class SecurityConfigProperties {
 
     private String secretKey;
 

@@ -4,6 +4,7 @@ import com.abbadi.arstore.brand.BrandControllerMapper;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
 import com.abbadi.arstore.item.glasses.model.GlassesRequest;
 import com.abbadi.arstore.item.glasses.model.GlassesResponse;
+import com.abbadi.arstore.item.photo.model.PhotoDto;
 import com.abbadi.arstore.store.StoreControllerMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -42,6 +43,10 @@ public class GlassesControllerMapper {
                         .border(dto.getBorder())
                         .shape(dto.getShape())
                         .quantity(dto.getQuantity())
+                        .photosUrls(dto.getPhotosDtos()
+                                .stream()
+                                .map(PhotoDto::getUrl)
+                                .toList())
                         .build() : null;
     }
 

@@ -1,6 +1,6 @@
 package com.abbadi.arstore.authentication.service;
 
-import com.abbadi.arstore.authentication.config.Security;
+import com.abbadi.arstore.common.config.SecurityConfigProperties;
 import com.abbadi.arstore.authentication.model.*;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -21,14 +21,14 @@ public class AuthenticationController {
 
     private final AuthenticationService service;
 
-    private final Security security;
+    private final SecurityConfigProperties securityConfigProperties;
 
     @PostMapping("/register/customer")
     public ResponseEntity<RegistrationResponse> register(@RequestBody @Valid CustomerRegisterRequest request,
                                                          HttpServletResponse httpServletResponse) {
         RegistrationResponse registrationResponse = service.registerCustomer(request);
         Token token = registrationResponse.getToken();
-        httpServletResponse.setHeader(security.getJwtTokenHeaderName(), token.getValue());
+        httpServletResponse.setHeader(securityConfigProperties.getJwtTokenHeaderName(), token.getValue());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(registrationResponse.getId())
@@ -41,7 +41,7 @@ public class AuthenticationController {
                                                               HttpServletResponse httpServletResponse) {
         RegistrationResponse registrationResponse = service.registerStore(request);
         Token token = registrationResponse.getToken();
-        httpServletResponse.setHeader(security.getJwtTokenHeaderName(), token.getValue());
+        httpServletResponse.setHeader(securityConfigProperties.getJwtTokenHeaderName(), token.getValue());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(registrationResponse.getId())
@@ -52,7 +52,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<RegistrationResponse> login(@RequestBody @Valid LoginRequest request, HttpServletResponse response) {
         Token token = service.login(request);
-        response.setHeader(security.getJwtTokenHeaderName(), token.getValue());
+        response.setHeader(securityConfigProperties.getJwtTokenHeaderName(), token.getValue());
         return ResponseEntity.ok().build();
     }
 }

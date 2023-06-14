@@ -23,7 +23,11 @@ ar-store-config:
   defaultPageSize: 20
   logoutPath: /api/logout
   security:
-    secret-key: 6E5A7234753778214125442A472D4B614E645267556B58703273357638792F42
+    secret-key: ${SECURITY_SECRET_KEY}
     jwtTokenHeaderName: Authorization
     jwtTokenHeaderPrefix: Bearer
     tokenLifeTimeMinutes: 60
+  cloudinary:
+    cloud-name: ${CLOUDINARY_CLOUD_NAME}
+    api-key: ${CLOUDINARY_API_KEY}
+    api-secret: ${CLOUDINARY_API_SECRET}

@@ -4,6 +4,7 @@ import com.abbadi.arstore.brand.BrandRepositoryMapper;
 import com.abbadi.arstore.common.generic.service.GenericRepositoryMapper;
 import com.abbadi.arstore.item.glasses.model.Glasses;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
+import com.abbadi.arstore.item.photo.PhotoRepositoryMapper;
 import com.abbadi.arstore.store.StoreRepositoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
     private final StoreRepositoryMapper storeRepositoryMapper;
 
     private final BrandRepositoryMapper brandRepositoryMapper;
+
+    private final PhotoRepositoryMapper photoRepositoryMapper;
 
     @Override
     public GlassesDto mapToDto(Glasses entity) {
@@ -34,6 +37,10 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .numberOfVotes(entity.getNumberOfVotes())
                 .border(entity.getBorder())
                 .shape(entity.getShape())
+                .photosDtos(entity.getPhotos()
+                        .stream()
+                        .map(photoRepositoryMapper::toDto)
+                        .toList())
                 .build();
     }
 
@@ -53,6 +60,10 @@ public class GlassesRepositoryMapper extends GenericRepositoryMapper<Long, Glass
                 .numberOfVotes(dto.getNumberOfVotes())
                 .border(dto.getBorder())
                 .shape(dto.getShape())
+                .photos(dto.getPhotosDtos()
+                        .stream()
+                        .map(photoRepositoryMapper::toEntity)
+                        .toList())
                 .build();
     }
 }

@@ -3,6 +3,7 @@ package com.abbadi.arstore.item.parent.model;
 import com.abbadi.arstore.brand.model.Brand;
 import com.abbadi.arstore.cartitem.model.CartItem;
 import com.abbadi.arstore.common.generic.model.GenericEntity;
+import com.abbadi.arstore.item.photo.model.Photo;
 import com.abbadi.arstore.store.model.Store;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -48,4 +49,8 @@ public class Item implements GenericEntity<Long> {
 
     @OneToMany(mappedBy = "item")
     protected List<CartItem> cartItems;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "item_id")
+    protected List<Photo> photos;
 }

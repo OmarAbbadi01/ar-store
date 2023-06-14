@@ -8,6 +8,8 @@ import com.abbadi.arstore.store.model.StoreResponse;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class GlassesResponse extends ItemResponse implements GenericResponse<Long> {
 
@@ -26,8 +28,8 @@ public class GlassesResponse extends ItemResponse implements GenericResponse<Lon
     @Builder(builderMethodName = "glassesResponseBuilder")
     public GlassesResponse(Long id, String description, StoreResponse storeResponse, BrandResponse brandResponse,
                            String model, String color, String type, Gender gender, Double price, String border, String shape,
-                           Double rating, Integer quantity) {
-        super(id, description, price, rating, quantity, storeResponse, brandResponse);
+                           Double rating, Integer quantity, List<String> photosUrls) {
+        super(id, description, price, rating, quantity, storeResponse, brandResponse, photosUrls);
         this.model = model;
         this.color = color;
         this.type = type;

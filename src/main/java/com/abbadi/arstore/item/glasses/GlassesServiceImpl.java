@@ -5,13 +5,16 @@ import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.common.exception.ArStoreExceptionMessages;
 import com.abbadi.arstore.common.generic.service.GenericServiceImpl;
 import com.abbadi.arstore.inventory.InventoryRepository;
-import com.abbadi.arstore.inventory.InventoryService;
 import com.abbadi.arstore.inventory.model.InventoryItemId;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
+import com.abbadi.arstore.item.photo.PhotoRepository;
+import com.abbadi.arstore.item.photo.model.PhotoDto;
+import com.abbadi.arstore.item.photo.PhotoUploadService;
 import com.abbadi.arstore.store.StoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -29,13 +32,19 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
 
     private final InventoryRepository inventoryRepository;
 
+    private final PhotoUploadService photoUploadService;
+
+    private final PhotoRepository photoRepository;
+
     public GlassesServiceImpl(GlassesRepository repository, StoreRepository storeRepository, BrandRepository brandRepository,
-                              InventoryRepository inventoryRepository) {
+                              InventoryRepository inventoryRepository, PhotoUploadService photoUploadService, PhotoRepository photoRepository) {
         super(repository);
         this.repository = repository;
         this.storeRepository = storeRepository;
         this.brandRepository = brandRepository;
         this.inventoryRepository = inventoryRepository;
+        this.photoUploadService = photoUploadService;
+        this.photoRepository = photoRepository;
     }
 
     @Override
@@ -68,6 +77,25 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
                     dto.setQuantity(quantity);
                 })
                 .toList();
+    }
+
+    @Override
+    public List<PhotoDto> uploadPhotos(List<PhotoDto> photosDtos) {
+        photosDtos.forEach(dto -> {
+            try {
+                String url = photoUploadService.uploadPhoto(dto.getMultipartFile());
+                dto.setUrl(url);
+            } catch (IOException ioException) {
+                throw new RuntimeException("Couldn't upload photo");
+            }
+        });
+        GlassesDto glassesDto = repository.findById(photosDtos.get(0).getItemDto().getId());
+        photosDtos = photosDtos.stream()
+                .map(photoRepository::create)
+                .toList();
+        glassesDto.setPhotosDtos(photosDtos);
+        repository.update(glassesDto);
+        return photosDtos;
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.abbadi.arstore.authentication.service;
 
-import com.abbadi.arstore.authentication.config.Security;
+import com.abbadi.arstore.common.config.SecurityConfigProperties;
 import com.abbadi.arstore.user.model.UserDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -21,7 +21,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class JwtHandlerImpl implements JwtHandler {
 
-    private final Security security;
+    private final SecurityConfigProperties securityConfigProperties;
 
     @Override
     public String extractUsername(String token) {
@@ -40,7 +40,7 @@ public class JwtHandlerImpl implements JwtHandler {
                 .setClaims(claims)
                 .setSubject(userDto.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * security.getTokenLifeTimeMinutes()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * securityConfigProperties.getTokenLifeTimeMinutes()))
                 .claim("user-id", userDto.getId())
                 .signWith(getSigingKey(), SignatureAlgorithm.HS256)
                 .compact();
@@ -75,7 +75,7 @@ public class JwtHandlerImpl implements JwtHandler {
     }
 
     private Key getSigingKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(security.getSecretKey());
+        byte[] keyBytes = Decoders.BASE64.decode(securityConfigProperties.getSecretKey());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }

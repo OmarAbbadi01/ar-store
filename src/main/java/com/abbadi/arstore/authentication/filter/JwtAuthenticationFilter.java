@@ -1,6 +1,6 @@
 package com.abbadi.arstore.authentication.filter;
 
-import com.abbadi.arstore.authentication.config.Security;
+import com.abbadi.arstore.common.config.SecurityConfigProperties;
 import com.abbadi.arstore.authentication.service.JwtHandler;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,20 +26,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
 
-    private final Security security;
+    private final SecurityConfigProperties securityConfigProperties;
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
                                     @NonNull FilterChain chain) throws IOException, ServletException {
-        final String header = request.getHeader(security.getJwtTokenHeaderName());
+        final String header = request.getHeader(securityConfigProperties.getJwtTokenHeaderName());
         final String jwt;
         final String username;
-        if (header == null || !header.startsWith(security.getJwtTokenHeaderPrefix())) {
+        if (header == null || !header.startsWith(securityConfigProperties.getJwtTokenHeaderPrefix())) {
             chain.doFilter(request, response);
             return;
         }
 
-        jwt = header.substring(security.getJwtTokenHeaderPrefix().length());
+        jwt = header.substring(securityConfigProperties.getJwtTokenHeaderPrefix().length());
         username = jwtHandler.extractUsername(jwt);
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);// TODO: replace with username from token

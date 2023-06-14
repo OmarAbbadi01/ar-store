@@ -1,4 +1,4 @@
-package com.abbadi.arstore.authentication.config;
+package com.abbadi.arstore.common.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +17,8 @@ public class ArStoreConfigProperties {
 
     private String logoutPath;
 
-    private Security security;
+    private SecurityConfigProperties securityConfigProperties;
+
+    private CloudinaryConfigProperties cloudinaryConfigProperties;
 
 }

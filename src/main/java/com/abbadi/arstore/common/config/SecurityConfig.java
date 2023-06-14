@@ -1,4 +1,4 @@
-package com.abbadi.arstore.authentication.config;
+package com.abbadi.arstore.common.config;
 
 import com.abbadi.arstore.authentication.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;

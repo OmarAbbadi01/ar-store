@@ -6,7 +6,13 @@ import com.abbadi.arstore.item.glasses.model.GlassesDto;
 import com.abbadi.arstore.item.glasses.model.GlassesRequest;
 import com.abbadi.arstore.item.glasses.model.GlassesResponse;
 import com.abbadi.arstore.item.glasses.model.RateRequest;
+import com.abbadi.arstore.item.photo.PhotoControllerMapper;
+import com.abbadi.arstore.item.photo.model.PhotoDto;
+import com.abbadi.arstore.item.photo.model.PhotosUploadRequest;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -17,6 +23,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.PHOTOS_NUMBER_MUST_BE_BETWEEN_ZERO_AND_FOUR;
 import static com.abbadi.arstore.item.glasses.GlassesControllerMapper.toDto;
 import static com.abbadi.arstore.item.glasses.GlassesControllerMapper.toResponse;
 
@@ -53,6 +60,20 @@ public class GlassesController {
                 .buildAndExpand(dto.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @PostMapping(value = "/{id}/photos", consumes = {"multipart/form-data"})
+//    @io.swagger.v3.oas.annotations.parameters.RequestBody(
+//            required = true,
+//            content = @Content(mediaType = "multipart/form-data", schema = @Schema(type = "string", format = "binary"))
+//    )
+    public ResponseEntity<List<String>> uploadPhotos(@ModelAttribute PhotosUploadRequest request, @PathVariable Long id) {
+        List<PhotoDto> dtos = PhotoControllerMapper.toDto(request, id);
+        dtos = service.uploadPhotos(dtos);
+        List<String> urls = dtos.stream()
+                .map(PhotoDto::getUrl)
+                .toList();
+        return ResponseEntity.ok(urls);
     }
 
     @PutMapping("/{id}")

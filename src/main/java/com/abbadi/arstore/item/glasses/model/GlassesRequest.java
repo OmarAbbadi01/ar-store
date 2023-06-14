@@ -10,6 +10,9 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Value;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 
