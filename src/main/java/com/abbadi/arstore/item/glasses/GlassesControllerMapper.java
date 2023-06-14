@@ -41,6 +41,7 @@ public class GlassesControllerMapper {
                         .rating(dto.getRating())
                         .border(dto.getBorder())
                         .shape(dto.getShape())
+                        .quantity(dto.getQuantity())
                         .build() : null;
     }
 

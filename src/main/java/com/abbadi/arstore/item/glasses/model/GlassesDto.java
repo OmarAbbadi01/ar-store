@@ -32,8 +32,8 @@ public class GlassesDto extends ItemDto implements GenericDto<Long> {
     @Builder(builderMethodName = "glassesDtoBuilder")
     public GlassesDto(Long id, String description, StoreDto storeDto, Long storeId, BrandDto brandDto, Long brandId,
                       String model, String color, String type, Gender gender, Double price, String border, String shape,
-                      Double rating, Integer numberOfVotes) {
-        super(id, description, price, rating, numberOfVotes, storeDto, brandDto);
+                      Double rating, Integer numberOfVotes, Integer quantity) {
+        super(id, description, price, rating, quantity, numberOfVotes, storeDto, brandDto);
         this.id = id;
         this.description = description;
         this.storeDto = storeDto;

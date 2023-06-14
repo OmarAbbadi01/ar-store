@@ -4,12 +4,19 @@ import com.abbadi.arstore.brand.BrandRepository;
 import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.common.exception.ArStoreExceptionMessages;
 import com.abbadi.arstore.common.generic.service.GenericServiceImpl;
+import com.abbadi.arstore.inventory.InventoryRepository;
+import com.abbadi.arstore.inventory.InventoryService;
+import com.abbadi.arstore.inventory.model.InventoryItemId;
 import com.abbadi.arstore.item.glasses.model.GlassesDto;
 import com.abbadi.arstore.store.StoreRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
+import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.ID_NOT_FOUND;
 
 @Service
 public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> implements GlassesService {
@@ -20,11 +27,47 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
 
     private final BrandRepository brandRepository;
 
-    public GlassesServiceImpl(GlassesRepository repository, StoreRepository storeRepository, BrandRepository brandRepository) {
+    private final InventoryRepository inventoryRepository;
+
+    public GlassesServiceImpl(GlassesRepository repository, StoreRepository storeRepository, BrandRepository brandRepository,
+                              InventoryRepository inventoryRepository) {
         super(repository);
         this.repository = repository;
         this.storeRepository = storeRepository;
         this.brandRepository = brandRepository;
+        this.inventoryRepository = inventoryRepository;
+    }
+
+    @Override
+    public GlassesDto findById(Long id) {
+        GlassesDto dto = Optional.ofNullable(repository.findById(id))
+                .orElseThrow(() -> ArStoreException.builder()
+                        .params(Collections.singletonList(id))
+                        .message(ID_NOT_FOUND)
+                        .status(HttpStatus.NOT_FOUND)
+                        .build());
+        Integer quantity = inventoryRepository.findById(InventoryItemId.builder()
+                        .storeId(dto.getStoreId())
+                        .itemId(dto.getId())
+                        .build())
+                .getQuantity();
+        dto.setQuantity(quantity);
+        return dto;
+    }
+
+    @Override
+    public List<GlassesDto> findAll() {
+        return repository.findAll()
+                .stream()
+                .peek(dto -> {
+                    Integer quantity = inventoryRepository.findById(InventoryItemId.builder()
+                                    .storeId(dto.getStoreId())
+                                    .itemId(dto.getId())
+                                    .build())
+                            .getQuantity();
+                    dto.setQuantity(quantity);
+                })
+                .toList();
     }
 
     @Override
