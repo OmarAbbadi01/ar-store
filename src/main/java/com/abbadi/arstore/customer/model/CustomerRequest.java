@@ -4,18 +4,20 @@ import com.abbadi.arstore.common.Gender;
 import com.abbadi.arstore.common.generic.model.GenericRequest;
 import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.common.validation.OnUpdate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Null;
 import lombok.Value;
+import lombok.With;
 
 import static com.abbadi.arstore.common.exception.ArStoreExceptionMessages.*;
 
 @Value
 public class CustomerRequest implements GenericRequest<Long> {
 
-    @Null(groups = OnCreate.class, message = ID_MUST_BE_NULL)
-    @NotNull(groups = OnUpdate.class, message = ID_CAN_NOT_BE_NULL)
+    @Null
+    @With
     Long id;
 
     @NotNull(message = CAN_NOT_BE_NULL)
@@ -28,4 +30,9 @@ public class CustomerRequest implements GenericRequest<Long> {
 
     @NotNull(message = CAN_NOT_BE_NULL)
     Gender gender;
+
+    @JsonIgnore
+    public Long getId() {
+        return id;
+    }
 }

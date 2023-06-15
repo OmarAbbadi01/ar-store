@@ -17,4 +17,15 @@ public class CustomerRepositoryImpl extends GenericRepositoryImpl<Long, Customer
         this.dao = dao;
         this.mapper = mapper;
     }
+
+    @Override
+    public void update(CustomerDto dto) {
+        dao.findById(dto.getId())
+                .ifPresent(customer -> {
+                    customer.setName(dto.getName());
+                    customer.setPhoneNumber(dto.getPhoneNumber());
+                    customer.setGender(dto.getGender());
+                    dao.save(customer);
+                });
+    }
 }

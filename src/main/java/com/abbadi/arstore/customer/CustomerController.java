@@ -18,7 +18,7 @@ import static com.abbadi.arstore.customer.CustomerControllerMapper.toDto;
 import static com.abbadi.arstore.customer.CustomerControllerMapper.toResponse;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Validated
 @Secured("CUSTOMER")
@@ -26,34 +26,22 @@ public class CustomerController {
 
     private final CustomerService service;
 
-    @GetMapping()
+    @GetMapping("/me/customers")
     public ResponseEntity<CustomerResponse> findById() {
         Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         CustomerDto customerDto = service.findById(id);
         return ResponseEntity.ok(toResponse(customerDto));
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<CustomerResponse>> findAll() {
-//        List<CustomerResponse> response = service.findAll()
-//                .stream()
-//                .map(CustomerControllerMapper::toResponse)
-//                .toList();
-//        return ResponseEntity.ok(response);
-//    }
-
-    @PutMapping("/{id}")
-    @Validated(value = OnUpdate.class)
-    public ResponseEntity<CustomerRequest> update(@RequestBody @Valid final CustomerRequest request,
-                                                  @PathVariable("id") final Long id) {
-        if (!request.getId().equals(id)) {
-            return ResponseEntity.badRequest().build();
-        }
-        service.update(toDto(request));
+    @PutMapping("/me/customers")
+    public ResponseEntity<CustomerRequest> update(@RequestBody @Valid final CustomerRequest request) {
+        final Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        CustomerRequest request2 = request.withId(id);
+        service.update(toDto(request2));
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/me/customers")
     public ResponseEntity<CustomerRequest> delete(@PathVariable("id") final Long id) {
         service.delete(id);
         return ResponseEntity.ok().build();

@@ -1,6 +1,5 @@
 package com.abbadi.arstore.authentication.model;
 
-import com.abbadi.arstore.common.validation.OnCreate;
 import com.abbadi.arstore.customer.model.CustomerRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -11,15 +10,15 @@ import lombok.Value;
 @Value
 public class CustomerRegisterRequest {
 
-    @Email(message = "Not Valid Email", groups = OnCreate.class)
-    @NotNull(message = "Email Can't Be Null", groups = OnCreate.class)
+    @Email(message = "Not Valid Email")
+    @NotNull(message = "Email Can't Be Null")
     String email;
 
-    @NotNull(message = "Password Can't Be Null", groups = OnCreate.class)
+    @NotNull(message = "Password Can't Be Null")
     @Size(min = 8, message = "Password should be at least 8 characters")
     String password;
 
-    @NotNull(message = "Customer Info Missing", groups = OnCreate.class)
+    @NotNull(message = "Customer Info Missing")
     @Valid
     CustomerRequest customer;
 
