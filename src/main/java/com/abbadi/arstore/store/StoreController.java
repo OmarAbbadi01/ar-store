@@ -7,6 +7,8 @@ import com.abbadi.arstore.store.model.StoreResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,20 +18,22 @@ import static com.abbadi.arstore.store.StoreControllerMapper.toDto;
 import static com.abbadi.arstore.store.StoreControllerMapper.toResponse;
 
 @RestController
-@RequestMapping("/api/stores")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 @Validated
 public class StoreController {
 
     private final StoreService service;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<StoreResponse> findById(@PathVariable("id") final Long id) {
+    @GetMapping("me/stores")
+    @Secured("STORE")
+    public ResponseEntity<StoreResponse> findById() {
+        final Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         StoreDto dto = service.findById(id);
         return ResponseEntity.ok(toResponse(dto));
     }
 
-    @GetMapping
+    @GetMapping("/stores")
     public ResponseEntity<List<StoreResponse>> findAll() {
         List<StoreResponse> responses = service.findAll()
                 .stream()
@@ -38,19 +42,18 @@ public class StoreController {
         return ResponseEntity.ok(responses);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/me/stores")
     @Validated(value = OnUpdate.class)
-    public ResponseEntity<StoreResponse> update(@RequestBody @Valid final StoreRequest request,
-                                                @PathVariable("id") final Long id) {
-        if (!request.getId().equals(id)) {
-            return ResponseEntity.badRequest().build();
-        }
+    @Secured("STORE")
+    public ResponseEntity<StoreResponse> update(@RequestBody @Valid final StoreRequest request) {
         service.update(toDto(request));
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<StoreResponse> delete(@PathVariable("id") final Long id) {
+    @DeleteMapping("/me/stores")
+    @Secured("STORE")
+    public ResponseEntity<StoreResponse> delete() {
+        final Long id = (Long) SecurityContextHolder.getContext().getAuthentication().getDetails();
         service.delete(id);
         return ResponseEntity.ok().build();
     }

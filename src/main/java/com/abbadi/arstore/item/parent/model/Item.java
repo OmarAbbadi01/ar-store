@@ -47,10 +47,10 @@ public class Item implements GenericEntity<Long> {
     @JoinColumn(name = "brand_id")
     protected Brand brand;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     protected List<CartItem> cartItems;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "item_id")
     protected List<Photo> photos;
 }
