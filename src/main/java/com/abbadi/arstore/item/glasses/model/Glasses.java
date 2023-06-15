@@ -30,6 +30,7 @@ public class Glasses extends Item { // TODO: some types can be converted to enum
     private String type;
 
     @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(name = "border")

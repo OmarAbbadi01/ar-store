@@ -5,7 +5,10 @@ import com.abbadi.arstore.cartitem.model.CartItemId;
 import com.abbadi.arstore.common.exception.ArStoreException;
 import com.abbadi.arstore.common.exception.ArStoreExceptionMessages;
 import com.abbadi.arstore.customer.CustomerRepository;
+import com.abbadi.arstore.inventory.InventoryRepository;
+import com.abbadi.arstore.inventory.model.InventoryItemId;
 import com.abbadi.arstore.item.parent.ItemRepository;
+import com.abbadi.arstore.item.parent.model.ItemDto;
 import com.abbadi.arstore.order.model.OrderDto;
 import com.abbadi.arstore.order.model.OrderItemIdDto;
 import com.abbadi.arstore.order.model.OrderStatus;
@@ -29,6 +32,8 @@ public class OrderServiceImpl implements OrderService {
 
     private final CartItemRepository cartItemRepository;
 
+    private final InventoryRepository inventoryRepository;
+
     @Override
     public Long createOrder(OrderDto newOrderDto) {
         Long customerId = newOrderDto.getCustomerDto().getId();
@@ -38,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
                         validateItem(orderItemDto.getId().getItemId()));
         newOrderDto.getOrderItemsDtos()
                 .forEach(orderItemDto ->
-                        validateItemsQuantity(orderItemDto.getId().getItemId()));
+                        validateItemsQuantity(orderItemDto.getId().getItemId(), orderItemDto.getQuantity()));
 
         newOrderDto.setCreationDate(LocalDate.now());
         newOrderDto.setOrderStatus(OrderStatus.PENDING_APPROVAL);
@@ -122,7 +127,19 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void validateItemsQuantity(Long itemId) {
-        // TODO: check quantity from inventory
+    private void validateItemsQuantity(Long itemId, Integer neededQuantity) {
+        ItemDto itemDto = itemRepository.findById(itemId);
+        Long storeId = itemDto.getStoreDto().getId();
+        Integer availableQuantity = inventoryRepository.findById(InventoryItemId.builder()
+                .storeId(storeId)
+                .itemId(itemId)
+                .build()).getQuantity();
+        if (availableQuantity < neededQuantity) {
+            throw ArStoreException.builder()
+                    .message(ArStoreExceptionMessages.QUANTITY_NOT_AVAILABLE)
+                    .status(HttpStatus.BAD_REQUEST)
+                    .params(List.of(neededQuantity, itemId))
+                    .build();
+        }
     }
 }

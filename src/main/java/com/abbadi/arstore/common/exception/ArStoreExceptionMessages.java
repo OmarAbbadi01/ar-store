@@ -16,5 +16,6 @@ public class ArStoreExceptionMessages {
     public static final String USER_SHOULD_BE_OF_TYPE_STORE = "user should be of type store";
     public static final String NO_SUCH_ITEM_IN_THE_CART = "this item is not added to the cart";
     public static final String PHOTOS_NUMBER_MUST_BE_BETWEEN_ZERO_AND_FOUR = "photos number must be between 0 and 4";
+    public static final String QUANTITY_NOT_AVAILABLE = "quantity %s of item %s is not available";
 
 }

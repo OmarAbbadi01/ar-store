@@ -32,6 +32,7 @@ public class Customer implements GenericEntity<Long> {
     private String phoneNumber;
 
     @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @OneToOne(cascade = CascadeType.ALL)
