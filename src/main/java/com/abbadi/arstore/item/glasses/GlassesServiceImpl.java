@@ -108,6 +108,30 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
     }
 
     @Override
+    public void update(GlassesDto newDto) {
+        checkBrandExistence(newDto.getBrandId());
+        checkStoreExistence(newDto.getStoreId());
+        Optional.of(repository.findById(newDto.getId()))
+                .ifPresentOrElse(currentDto -> {
+                    currentDto.setDescription(newDto.getDescription());
+                    currentDto.setPrice(newDto.getPrice());
+                    currentDto.setModel(newDto.getModel());
+                    currentDto.setColor(newDto.getColor());
+                    currentDto.setType(newDto.getType());
+                    currentDto.setGender(newDto.getGender());
+                    currentDto.setBorder(newDto.getBorder());
+                    currentDto.setShape(newDto.getShape());
+                    repository.update(currentDto);
+                }, () -> {
+                    throw ArStoreException.builder()
+                            .message(ID_NOT_FOUND)
+                            .params(List.of(newDto.getId()))
+                            .status(HttpStatus.NOT_FOUND)
+                            .build();
+                });
+    }
+
+    @Override
     protected GlassesDto beforeUpdate(GlassesDto dto) {
         return addMissingValues(dto);
     }
