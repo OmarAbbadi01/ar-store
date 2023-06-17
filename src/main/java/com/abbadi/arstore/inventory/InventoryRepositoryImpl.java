@@ -31,4 +31,10 @@ public class InventoryRepositoryImpl extends GenericRepositoryImpl<InventoryItem
                 .map(mapper::toDto)
                 .toList();
     }
+
+    @Transactional
+    @Override
+    public void deleteByStoreId(Long storeId) {
+        dao.deleteByStoreId(storeId);
+    }
 }

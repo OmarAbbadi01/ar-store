@@ -10,4 +10,6 @@ public interface InventoryRepository extends GenericRepository<InventoryItemId, 
 
     List<InventoryItemDto> findAllItemsInInventory(Long storeId);
 
+    void deleteByStoreId(Long storeId);
+
 }

@@ -137,6 +137,12 @@ public class GlassesServiceImpl extends GenericServiceImpl<Long, GlassesDto> imp
     }
 
     @Override
+    protected void beforeDelete(Long id) {
+        Optional.of(repository.findById(id))
+                .ifPresent(dto -> inventoryRepository.deleteByStoreId(dto.getStoreId()));
+    }
+
+    @Override
     public void rate(Long itemId, Integer value) {
         checkItemExists(itemId);
         GlassesDto dto = repository.findById(itemId);
